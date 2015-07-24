@@ -1,0 +1,72 @@
+#:kivy 1.0
+
+<Main>:
+    pos: 0,-100
+    padding: 50
+    rows: 3
+    row_force_default: True
+    row_default_height: 50
+    spacing: 30
+    orientation: 'vertical'
+
+
+    canvas:
+        Color:
+            rgb: 0.7, 0.7, 0.7
+        Rectangle:
+            pos: 0,0
+            size: self.size
+    SpinnerRow
+    AdjustVol
+    AdjustPitch
+
+
+
+<AdjustVol>
+    Label:
+        color: 0, 0, 0, 1
+        font_size: 25
+        size_hint_x: None
+        width: 150
+        text: 'Vol:'
+    Slider:
+        min: 0.0
+        max: 1.0
+        value: 1.0
+        width: 300
+        on_value: root.setVolume(self.value)
+
+<AdjustPitch>
+    Label:
+        color: 0, 0, 0, 1
+        font_size: 25
+        size_hint_x: None
+        width: 150
+        text: 'Pitch:'
+    Slider:
+        min: 0.0
+        max: 2.0
+        value: 1
+        width: 300
+        on_value: root.setPitch(self.value)
+
+
+<SpinnerRow>:
+    height: 40
+    orientation: 'horizontal'
+    Label:
+        color: 0, 0, 0, 1
+        font_size: 25
+        size_hint_x: None
+        text: "Sound Effect:"
+        width: 150
+    EffectSpinner:
+        on_text: root.change_style()
+
+
+<EffectSpinner>:
+    font_size: 25
+    text: 'bubble'
+    background_color: 255, 255, 255, 1
+    color: 0, 0, 0, 1
+    values:['bubble', 'mechanical', 'sword', 'typewriter',]

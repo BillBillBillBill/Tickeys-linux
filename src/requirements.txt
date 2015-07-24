@@ -1,0 +1,5 @@
+Cython
+evdev
+Pygments
+pygame
+Kivy
