@@ -28,7 +28,7 @@ Builder.load_string('''
 
     canvas:
         Color:
-            rgb: 0.7, 0.7, 0.7
+            rgb: 0.7, 0.7, 0.7, 0.1
         Rectangle:
             pos: 0,0
             size: self.size
@@ -70,7 +70,7 @@ Builder.load_string('''
         text: 'Pitch:'
     Slider:
         min: 0.0
-        max: 2.0
+        max: 3.0
         value: 1.0
         width: 300
         on_value: root.setPitch(self.value)
@@ -169,6 +169,7 @@ class Main(GridLayout):
 
 class TickeysApp(App):
     def build(self):
+
         root = Main()
         return root
 

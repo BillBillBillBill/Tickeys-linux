@@ -69,13 +69,13 @@ class CLI(cmd.Cmd):
         print "Set pitch, input the pitch you want"
 
     def do_setpitch(self, arg):
-        pitch = raw_input("Input the pitch(0~20, default 10) you want:")
+        pitch = raw_input("Input the pitch(0~30, default 10) you want:")
 
         try:
             pitch = float(pitch)
-            assert(0 <= pitch <= 20)
+            assert(0 <= pitch <= 30)
         except Exception:
-            print "Pitch must between 0~20!!"
+            print "Pitch must between 0~30!!"
             return
 
         self.pitch = pitch

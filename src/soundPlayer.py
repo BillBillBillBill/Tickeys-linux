@@ -10,7 +10,8 @@ __author__ = 'Huang xiongbiao(billo@qq.com)'
 class soundPlayer():
 
     def __init__(self):
-        mixer.init()
+        self.mixer = mixer
+        self.mixer.init(frequency=22050)
         self.config = dict((i['name'], i) for i in json.load(file('../Resources/data/schemes.json')))
         self.style = 'bubble'
         self.soundFileList = self.config[self.style]['files']
@@ -19,22 +20,28 @@ class soundPlayer():
         self.soundEffectCache = []
         self.volume = 1.0
         self.pitch = 1.0
+        self.changing = False
         self.cacheSoundEffect()
 
     # preload sound effect
     def cacheSoundEffect(self):
         try:
+            self.changing = True
+            self.mixer.quit()
+            self.mixer.init(frequency=int(self.pitch*22050))
             self.soundEffectCache = []
-
             for effectFile in self.soundFileList:
                 soundFile = '../Resources/data/%s/%s' % (self.style, effectFile)
                 logger.debug('Load sound file:' + soundFile)
-                self.soundEffectCache.append(mixer.Sound(soundFile))
+                self.soundEffectCache.append(self.mixer.Sound(soundFile))
 
             self.setVolume(self.volume)
-            self.setPitch(self.pitch)
+            
+            # self.setPitch(self.pitch)
         except Exception, e:
             logger.error('Load sound files fail:' + str(e))
+        finally:
+            self.changing = False
 
     def setStyle(self, style):
         try:
@@ -53,19 +60,23 @@ class soundPlayer():
         for soundEffect in self.soundEffectCache:
             soundEffect.set_volume(self.volume)
 
-    # with some bug to fix
+    # May raise nonfluency when init the mixer
     def setPitch(self, pitch):
-        if abs(mixer.get_init()[0]/22050.0 - pitch) < 0.1:
-            return
-        mixer.quit()
-        pitch = 0.6 + 0.4 * pitch if pitch < 1 else pitch
+        # if abs(self.mixer.get_init()[0]/22050.0 - pitch) < 0.1:
+        #     return
+        # it's weird
+        pitch = 0.65 + 0.3 * pitch if pitch < 1 else pitch + 0.9
         self.pitch = pitch
-        freq = int(pitch * 22050)
-        mixer.init(frequency=freq)
+        self.cacheSoundEffect()
 
     def play(self, key):
 
         if not self.key_audio_map.get(str(key)):
             self.key_audio_map[str(key)] = key % self.non_unique_count
 
+        # avoid the situation that play sound while caching
+        while self.changing:
+            continue
+
         self.soundEffectCache[self.key_audio_map[str(key)]].play()
+        #dir(self.soundEffectCache[self.key_audio_map[str(key)]])
