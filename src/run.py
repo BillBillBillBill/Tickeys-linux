@@ -9,8 +9,8 @@ def runInGUI():
     try:
         from GUI import TickeysApp
         TickeysApp().run()
-    except Exception:
-        print "Run GUI Fail, use CLI instead"
+    except Exception, e:
+        print "Run GUI Fail, use CLI instead..Fail msg:%s" % str(e)
         runInCLI()
 
 def runInCLI():
@@ -25,16 +25,15 @@ def checkRoot():
     print "Root checking success.."
 
 if __name__ == '__main__':
+    checkRoot()
     if len(sys.argv) != 2 or sys.argv[1] not in ['-c', '-g']:
         print "Usage: python run.py -c     ---CLI mode"
         print "       python run.py -g     ---GUI mode"
         if len(sys.argv) == 1:
             runInGUI()
         sys.exit(0)
-    checkRoot()
     if sys.argv[1] == '-g':
         del sys.argv[1] # otherwise kivy would regard it as option
         runInGUI()
     else:
         runInCLI()
-
