@@ -5,10 +5,11 @@ from kivy.uix.spinner import Spinner
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.button import Button
-from keyboard import keyboardDetect
+from keyboardHandler import keyboardHandler
 from kivy.lang import Builder
 import sys
 import webbrowser
+import commands
 
 reload(sys)
 sys.setdefaultencoding("utf-8")
@@ -150,31 +151,50 @@ class AdjustPitch(BoxLayout):
 
 class ExitButton(BoxLayout):
     def Exit(self):
-        self.parent.detecter.stopDetecting()
-        sys.exit(0)
+        self.parent.Exit()
+
 
 class InforRow(BoxLayout):
     pass
 
+
 class Main(GridLayout):
-    def __init__(self, **kwargs):
+    def __init__(self, *args, **kwargs):
         super(Main, self).__init__(**kwargs)
-        self._detecter = keyboardDetect()
+        self.terminalId = args[0] if args else None
+        self._detecter = keyboardHandler()
         self._detecter.startDetecting()
+        self.hideTerminal()
 
     @property
     def detecter(self):
         return self._detecter
 
+    def hideTerminal(self):
+        if not self.terminalId:
+            return
+        commands.getstatusoutput("xdotool windowactivate --sync %s" % self.terminalId)
+        commands.getstatusoutput("xdotool getactivewindow windowminimize")
+
+    def Exit(self):
+        self.detecter.stopDetecting()
+        # show terminal
+        if self.terminalId:
+            commands.getstatusoutput("xdotool windowactivate --sync %s" % self.terminalId)
+        sys.exit(0)
+
 
 class TickeysApp(App):
-    def build(self):
+    def __init__(self, *args, **kwargs):
+        super(TickeysApp, self).__init__(**kwargs)
+        self.terminalId = args[0] if args else None
 
-        root = Main()
+    def build(self):
+        root = Main(self.terminalId)
         return root
 
     def on_stop(self):
-        self.root.detecter.stopDetecting()
+        self.root.Exit()
 
 
 if __name__ == '__main__':

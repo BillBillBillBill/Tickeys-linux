@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 #coding: utf-8
 import cmd
-from keyboard import keyboardDetect
+from keyboardHandler import keyboardHandler
 from logger import logger
 import sys
 reload(sys)
@@ -16,7 +16,7 @@ class CLI(cmd.Cmd):
         cmd.Cmd.__init__(self)
         self.intro = "Tickeys v0.0.1 - Linux\nType 'help' for help"
         self.prompt = ">>> "
-        self.detecter = keyboardDetect()
+        self.detecter = keyboardHandler()
         self.detecter.startDetecting()
         self.volume = 100.0
         self.pitch = 10.0

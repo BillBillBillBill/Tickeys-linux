@@ -13,12 +13,14 @@ __author__ = 'Huang xiongbiao(billo@qq.com)'
 deviceFilePath = '/sys/class/input/'
 
 
-class keyboardDetect():
+class keyboardHandler():
 
     def __init__(self):
         logger.debug("Keyboard deteccter created.")
         self.keyboardList = self.findKeyboard()
         self.threads = []
+        self.inputRecord = []
+        self.hotKey = [16, 30, 44, 2, 3, 4] # qaz123
         self.sp = soundPlayer()
 
     # list all event's name and its device
@@ -63,7 +65,21 @@ class keyboardDetect():
                 if (event.value == 1 or event.value == 0) and event.code != 0:
                     if event.value == 1:
                         self.sp.play(event.code)
+                        self.checkShowWindow(event.code)
                     logger.debug("Key: %s Status: %s" % (event.code, "pressed" if event.value else "release"))
+
+    def checkShowWindow(self, keycode):
+        if len(self.inputRecord) > 0 and keycode == self.inputRecord[-1]:
+            return
+        if keycode == self.hotKey[len(self.inputRecord)]:
+            self.inputRecord.append(keycode)
+            print self.inputRecord
+            if len(self.inputRecord) == 6:
+                print "yes"
+                self.inputRecord = []
+                # self.showWindow()
+        else:
+            self.inputRecord = []
 
     def startDetecting(self):
 
@@ -80,5 +96,5 @@ class keyboardDetect():
             t._Thread__stop()
 
 if __name__ == '__main__':
-    detecter = keyboardDetect()
+    detecter = keyboardHandler()
     detecter.startDetecting()
