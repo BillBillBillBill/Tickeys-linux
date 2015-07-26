@@ -20,6 +20,7 @@ def runInGUI():
         print "Run GUI Fail, use CLI instead..Fail msg:%s" % str(e)
         runInCLI()
 
+
 def runInCLI():
     from CLI import CLI
     CLI().cmdloop()

@@ -6,6 +6,7 @@ from evdev import InputDevice
 from select import select
 from soundPlayer import soundPlayer
 from logger import logger
+import commands
 
 __author__ = 'Huang xiongbiao(billo@qq.com)'
 
@@ -20,8 +21,10 @@ class keyboardHandler():
         self.keyboardList = self.findKeyboard()
         self.threads = []
         self.inputRecord = []
-        self.hotKey = [16, 30, 44, 2, 3, 4] # qaz123
+        self.hotKey = [16, 30, 44, 2, 3, 4]  # QAZ123
         self.sp = soundPlayer()
+        self.GUIID = None
+        
 
     # list all event's name and its device
     def showDevice(self):
@@ -39,6 +42,16 @@ class keyboardHandler():
 
     def setPitch(self, pitch):
         self.sp.setPitch(pitch)
+
+    @property
+    def GUIID(self):
+        return self.GUIID
+
+    def showGUI(self):
+        if not self.GUIID:
+            return
+        commands.getstatusoutput("xdotool windowactivate --sync %s" % self.GUIID)
+
 
     # return with a list of keyboard's event
     def findKeyboard(self):
@@ -73,11 +86,10 @@ class keyboardHandler():
             return
         if keycode == self.hotKey[len(self.inputRecord)]:
             self.inputRecord.append(keycode)
-            print self.inputRecord
+            logger.debug(self.inputRecord)
             if len(self.inputRecord) == 6:
-                print "yes"
+                self.showGUI()
                 self.inputRecord = []
-                # self.showWindow()
         else:
             self.inputRecord = []
 
@@ -87,9 +99,6 @@ class keyboardHandler():
             t = threading.Thread(target=self.detectInputKey, args=(i,))
             self.threads.append(t)
             t.start()
-
-        # for i in self.threads:
-        #     i.start()
 
     def stopDetecting(self):
         for t in self.threads:

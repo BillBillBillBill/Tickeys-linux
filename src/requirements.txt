@@ -3,3 +3,4 @@ evdev
 Pygments
 pygame
 Kivy
+cx_freeze

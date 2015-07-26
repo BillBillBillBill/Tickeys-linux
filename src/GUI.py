@@ -162,13 +162,22 @@ class Main(GridLayout):
     def __init__(self, *args, **kwargs):
         super(Main, self).__init__(**kwargs)
         self.terminalId = args[0] if args else None
-        self._detecter = keyboardHandler()
-        self._detecter.startDetecting()
+        # tool works preget
+        if self.terminalId:
+            stat, GUIID = commands.getstatusoutput('xdotool getactivewindow')
+            self.GUIID = GUIID if stat == 0 else None
+            # hide itself
+            if stat == 0:
+                commands.getstatusoutput('xdotool getactivewindow windowminimize')
+        self.detecter = keyboardHandler()
+        self.detecter.startDetecting()
+        self.detecter.GUIID = self.GUIID
         self.hideTerminal()
 
-    @property
-    def detecter(self):
-        return self._detecter
+
+    # @property
+    # def detecter(self):
+    #     return self.detecter
 
     def hideTerminal(self):
         if not self.terminalId:
@@ -178,7 +187,7 @@ class Main(GridLayout):
 
     def Exit(self):
         self.detecter.stopDetecting()
-        # show terminal
+        # Show the terminal
         if self.terminalId:
             commands.getstatusoutput("xdotool windowactivate --sync %s" % self.terminalId)
         sys.exit(0)
