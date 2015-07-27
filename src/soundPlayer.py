@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 #coding: utf-8
 from pygame import mixer
-import json
 from logger import logger
+import json
 
 __author__ = 'Huang xiongbiao(billo@qq.com)'
 
@@ -34,10 +34,8 @@ class soundPlayer():
                 soundFile = '../Resources/data/%s/%s' % (self.style, effectFile)
                 logger.debug('Load sound file:' + soundFile)
                 self.soundEffectCache.append(self.mixer.Sound(soundFile))
-
             self.setVolume(self.volume)
-            
-            # self.setPitch(self.pitch)
+
         except Exception, e:
             logger.error('Load sound files fail:' + str(e))
         finally:

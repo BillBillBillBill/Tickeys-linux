@@ -4,11 +4,9 @@ from kivy.app import App
 from kivy.uix.spinner import Spinner
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.gridlayout import GridLayout
-from kivy.uix.button import Button
 from keyboardHandler import keyboardHandler
 from kivy.lang import Builder
 import sys
-import webbrowser
 import commands
 
 reload(sys)
@@ -127,8 +125,9 @@ Builder.load_string('''
         text: "Author: Bill (billo@qq.com)"
         width: 250
         border: 1,1,1,1
-        on_touch_move: 
+        on_touch_move:
 '''.encode('utf-8'))
+
 
 class EffectSpinner(Spinner):
     pass
@@ -174,7 +173,6 @@ class Main(GridLayout):
         self.detecter.GUIID = self.GUIID
         self.hideTerminal()
 
-
     # @property
     # def detecter(self):
     #     return self.detecter
@@ -183,13 +181,15 @@ class Main(GridLayout):
         if not self.terminalId:
             return
         commands.getstatusoutput("xdotool windowactivate --sync %s" % self.terminalId)
-        commands.getstatusoutput("xdotool getactivewindow windowminimize")
+        commands.getstatusoutput("xdotool getactivewindow windowunmap")
+        # if want to show terminal use windowminimize
 
     def Exit(self):
         self.detecter.stopDetecting()
         # Show the terminal
-        if self.terminalId:
-            commands.getstatusoutput("xdotool windowactivate --sync %s" % self.terminalId)
+        # if self.terminalId:
+        #     commands.getstatusoutput("xdotool windowactivate --sync %s" % self.terminalId)
+        #     commands.getstatusoutput("xdotool getactivewindow windowmap")
         sys.exit(0)
 
 

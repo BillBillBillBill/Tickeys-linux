@@ -8,11 +8,14 @@ ___
 实现了CLI版本和GUI版本，在不同发行版上可能会有因为文件的缺失或者环境不同导致无法使用，出现错误可参考下面解决方法。
 
 打开方法：
-权限：sudo chmod 777 run.sh
-然后打开run.sh即可
-打开CLI版本： sudo ./run -c
+权限：sudo chmod 777 tickeys & sudo chmod 777 run
+
+然后打开tickeys即可
+
+打开CLI版本： sudo sh tickeys -c
 
 启动后会自动隐藏：按QAZ123唤出窗口
+
 
 #### 报错解决方案：
 

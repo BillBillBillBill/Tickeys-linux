@@ -1,33 +1,42 @@
 #:kivy 1.0
+# rename this to Tickeys if using this to instead using load_string method
 
 <Main>:
-    pos: 0,-100
+    pos: 0,0
     padding: 50
-    rows: 3
+    rows: 6
     row_force_default: True
     row_default_height: 50
-    spacing: 30
+    spacing: 50
     orientation: 'vertical'
 
 
     canvas:
         Color:
-            rgb: 0.7, 0.7, 0.7
+            rgb: 0.7, 0.7, 0.7, 0.1
         Rectangle:
             pos: 0,0
             size: self.size
+    Label:
+        bold: True
+        text: 'Tickeys'
+        font_size: 42
+        size_hint_y: None
+
     SpinnerRow
     AdjustVol
     AdjustPitch
-
+    ExitButton
+    InforRow
 
 
 <AdjustVol>
     Label:
+        bold: True
         color: 0, 0, 0, 1
         font_size: 25
         size_hint_x: None
-        width: 150
+        width: 250
         text: 'Vol:'
     Slider:
         min: 0.0
@@ -38,35 +47,68 @@
 
 <AdjustPitch>
     Label:
+        bold: True
         color: 0, 0, 0, 1
         font_size: 25
         size_hint_x: None
-        width: 150
+        width: 250
         text: 'Pitch:'
     Slider:
         min: 0.0
-        max: 2.0
-        value: 1
+        max: 3.0
+        value: 1.0
         width: 300
         on_value: root.setPitch(self.value)
 
 
 <SpinnerRow>:
-    height: 40
-    orientation: 'horizontal'
     Label:
+        bold: True
         color: 0, 0, 0, 1
         font_size: 25
         size_hint_x: None
         text: "Sound Effect:"
-        width: 150
+        width: 250
     EffectSpinner:
         on_text: root.change_style()
 
 
 <EffectSpinner>:
+    bold: True
     font_size: 25
     text: 'bubble'
     background_color: 255, 255, 255, 1
     color: 0, 0, 0, 1
     values:['bubble', 'mechanical', 'sword', 'typewriter',]
+
+<ExitButton>:
+    Label:
+    Button:
+        bold: True
+        text: "EXIT"
+        color: 0,0,0,1
+        background_color: 255.0, 255.0, 255.0, 1.0
+        on_press: root.Exit()
+    Label:
+
+<InforRow>:
+    Label:
+        color: 0, 0, 0, 1
+        font_size: 23
+        size_hint_x: None
+        text: "Tickeys for linux"
+        width: 250
+    Label:
+        color: 0, 0, 0, 1
+        font_size: 20
+        size_hint_x: None
+        text: "v0.0.1"
+        width: 250
+    Label:
+        color: 0, 0, 0, 1
+        font_size: 18
+        size_hint_x: None
+        text: "Author: Bill (billo@qq.com)"
+        width: 250
+        border: 1,1,1,1
+        on_touch_move:

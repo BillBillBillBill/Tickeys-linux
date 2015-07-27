@@ -10,6 +10,7 @@ sys.setdefaultencoding("utf-8")
 
 __author__ = 'Huang xiongbiao(billo@qq.com)'
 
+
 class CLI(cmd.Cmd):
 
     def __init__(self):
@@ -21,7 +22,6 @@ class CLI(cmd.Cmd):
         self.volume = 100.0
         self.pitch = 10.0
         self.style = 'bubble'
-
 
     def default(self, line):
         print "Command '%s' is invalid, try 'help'" % line
@@ -94,9 +94,13 @@ class CLI(cmd.Cmd):
         print "Sound effect: %s  Volume: %s  Pitch: %s" % (self.style, self.volume, self.pitch)
 
     def do_quit(self, arg):
-        self.detecter.stopDetecting()
-        sys.exit(0)
-        return True
+        try:
+            self.detecter.stopDetecting()
+        except Exception:
+            pass
+        finally:
+            sys.exit(0)
+            return True
 
 
 if __name__ == "__main__":

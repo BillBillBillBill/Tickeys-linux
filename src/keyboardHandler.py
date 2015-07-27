@@ -24,7 +24,6 @@ class keyboardHandler():
         self.hotKey = [16, 30, 44, 2, 3, 4]  # QAZ123
         self.sp = soundPlayer()
         self.GUIID = None
-        
 
     # list all event's name and its device
     def showDevice(self):
@@ -51,7 +50,6 @@ class keyboardHandler():
         if not self.GUIID:
             return
         commands.getstatusoutput("xdotool windowactivate --sync %s" % self.GUIID)
-
 
     # return with a list of keyboard's event
     def findKeyboard(self):

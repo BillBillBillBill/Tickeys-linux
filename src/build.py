@@ -1,12 +1,10 @@
-import sys
 import shutil
 import os
 from cx_Freeze import setup, Executable
 
 buildOptions = dict(
     compressed=True,
-    includes=["pygame", "os", "sys"],
-    include_files=['kivy', 'run.sh'])
+    include_files=['kivy', 'tickeys'],)
 
 setup(
     name="tickeys",
@@ -17,3 +15,6 @@ setup(
 
 print "Move resources file..."
 shutil.copytree("../Resources", os.getcwd() + "/build/Resources")
+
+print "Add readme file..."
+shutil.copyfile("readme.txt", os.getcwd() + "/build/readme.txt")
