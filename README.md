@@ -39,7 +39,11 @@ Debian and Ubuntu 用户则可以尝试安装:
 ### For dev
 ___
 
-安装依赖：
+编码规范: PEP8
+
+命名规则： 驼峰命名
+
+依赖安装：
 pip install -r requirements.txt
 
 使用cx_freeze进行打包：

@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-#coding: utf-8
+# coding: utf-8
 from kivy.app import App
 from kivy.uix.spinner import Spinner
 from kivy.uix.boxlayout import BoxLayout
@@ -167,7 +167,8 @@ class Main(GridLayout):
             self.GUIID = GUIID if stat == 0 else None
             # hide itself
             if stat == 0:
-                commands.getstatusoutput('xdotool getactivewindow windowminimize')
+                commands.getstatusoutput(
+                    'xdotool getactivewindow windowminimize')
         self.detecter = keyboardHandler()
         self.detecter.startDetecting()
         self.detecter.GUIID = self.GUIID
@@ -180,16 +181,20 @@ class Main(GridLayout):
     def hideTerminal(self):
         if not self.terminalId:
             return
-        commands.getstatusoutput("xdotool windowactivate --sync %s" % self.terminalId)
-        commands.getstatusoutput("xdotool getactivewindow windowunmap")
+        commands.getstatusoutput(
+            "xdotool windowactivate --sync %s" % self.terminalId)
+        commands.getstatusoutput(
+            "xdotool getactivewindow windowunmap")
         # if want to show terminal use windowminimize
 
     def Exit(self):
         self.detecter.stopDetecting()
         # Show the terminal
         # if self.terminalId:
-        #     commands.getstatusoutput("xdotool windowactivate --sync %s" % self.terminalId)
-        #     commands.getstatusoutput("xdotool getactivewindow windowmap")
+        #     commands.getstatusoutput(
+        #    "xdotool windowactivate --sync %s" % self.terminalId)
+        #     commands.getstatusoutput(
+        #    "xdotool getactivewindow windowmap")
         sys.exit(0)
 
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-#coding: utf-8
+# coding: utf-8
 import os
 import threading
 from evdev import InputDevice
@@ -49,7 +49,8 @@ class keyboardHandler():
     def showGUI(self):
         if not self.GUIID:
             return
-        commands.getstatusoutput("xdotool windowactivate --sync %s" % self.GUIID)
+        commands.getstatusoutput(
+            "xdotool windowactivate --sync %s" % self.GUIID)
 
     # return with a list of keyboard's event
     def findKeyboard(self):
@@ -57,7 +58,9 @@ class keyboardHandler():
         keyboardList = []
         for event in os.listdir(deviceFilePath):
             namePath = deviceFilePath + event + '/device/name'
-            if os.path.isfile(namePath) and file(namePath).read().lower().find('keyboard') != -1:
+            isFind = os.path.isfile(namePath) and \
+                file(namePath).read().lower().find('keyboard') != -1
+            if isFind:
                 keyboardList.append(event)
 
         try:
@@ -77,7 +80,9 @@ class keyboardHandler():
                     if event.value == 1:
                         self.sp.play(event.code)
                         self.checkShowWindow(event.code)
-                    logger.debug("Key: %s Status: %s" % (event.code, "pressed" if event.value else "release"))
+                    logger.debug(
+                        "Key: %s Status: %s" %
+                        (event.code, "pressed" if event.value else "release"))
 
     def checkShowWindow(self, keycode):
         if len(self.inputRecord) > 0 and keycode == self.inputRecord[-1]:

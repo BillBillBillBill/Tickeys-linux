@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-#coding: utf-8
+# coding: utf-8
 from pygame import mixer
 from logger import logger
 import json
@@ -12,7 +12,9 @@ class soundPlayer():
     def __init__(self):
         self.mixer = mixer
         self.mixer.init(frequency=22050)
-        self.config = dict((i['name'], i) for i in json.load(file('../Resources/data/schemes.json')))
+        self.config = dict(
+            (i['name'], i)
+            for i in json.load(file('../Resources/data/schemes.json')))
         self.style = 'bubble'
         self.soundFileList = self.config[self.style]['files']
         self.key_audio_map = self.config[self.style]['key_audio_map']
@@ -31,7 +33,8 @@ class soundPlayer():
             self.mixer.init(frequency=int(self.pitch*22050))
             self.soundEffectCache = []
             for effectFile in self.soundFileList:
-                soundFile = '../Resources/data/%s/%s' % (self.style, effectFile)
+                soundFile = '../Resources/data/%s/%s' % \
+                    (self.style, effectFile)
                 logger.debug('Load sound file:' + soundFile)
                 self.soundEffectCache.append(self.mixer.Sound(soundFile))
             self.setVolume(self.volume)
@@ -77,4 +80,4 @@ class soundPlayer():
             continue
 
         self.soundEffectCache[self.key_audio_map[str(key)]].play()
-        #dir(self.soundEffectCache[self.key_audio_map[str(key)]])
+        # dir(self.soundEffectCache[self.key_audio_map[str(key)]])

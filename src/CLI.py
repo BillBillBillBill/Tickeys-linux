@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-#coding: utf-8
+# coding: utf-8
 import cmd
 from keyboardHandler import keyboardHandler
 from logger import logger
@@ -30,7 +30,9 @@ class CLI(cmd.Cmd):
         print "Set style, change the sound's effect"
 
     def do_setstyle(self, arg):
-        style_index = raw_input("Input the effect style (0:bubble 1:mechanical 2:sword 3:typewriter) you want:")
+        style_index = raw_input(
+            "Input the effect style "
+            "(0:bubble 1:mechanical 2:sword 3:typewriter) you want:")
         style_list = ['bubble', 'mechanical', 'sword', 'typewriter']
 
         try:
@@ -91,7 +93,8 @@ class CLI(cmd.Cmd):
         print "Get tickeys' sound effect, volume and pitch"
 
     def do_getinfor(self, arg):
-        print "Sound effect: %s  Volume: %s  Pitch: %s" % (self.style, self.volume, self.pitch)
+        print "Sound effect: %s  Volume: %s  Pitch: %s" \
+            % (self.style, self.volume, self.pitch)
 
     def do_quit(self, arg):
         try:
