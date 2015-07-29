@@ -12,7 +12,7 @@
 
 
 # I try to use this thing to package, but fail.
-__author__ = 'Huang xiongbiao(billo@qq.com)'
+
 import  os
 
 if __name__ == '__main__':

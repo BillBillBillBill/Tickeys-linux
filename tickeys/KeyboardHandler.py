@@ -4,7 +4,7 @@ import os
 import threading
 from evdev import InputDevice
 from select import select
-from soundPlayer import soundPlayer
+from SoundPlayer import SoundPlayer
 from logger import logger
 import commands
 
@@ -14,7 +14,7 @@ __author__ = 'Huang xiongbiao(billo@qq.com)'
 deviceFilePath = '/sys/class/input/'
 
 
-class keyboardHandler():
+class KeyboardHandler():
 
     def __init__(self):
         logger.debug("Keyboard deteccter created.")
@@ -22,7 +22,7 @@ class keyboardHandler():
         self.threads = []
         self.inputRecord = []
         self.hotKey = [16, 30, 44, 2, 3, 4]  # QAZ123
-        self.sp = soundPlayer()
+        self.sp = SoundPlayer()
         self.GUIID = None
 
     # list all event's name and its device
@@ -108,5 +108,5 @@ class keyboardHandler():
             t._Thread__stop()
 
 if __name__ == '__main__':
-    detecter = keyboardHandler()
+    detecter = KeyboardHandler()
     detecter.startDetecting()

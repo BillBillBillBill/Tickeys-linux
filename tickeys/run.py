@@ -7,7 +7,8 @@ import commands
 __author__ = 'Huang xiongbiao(billo@qq.com)'
 
 
-def runInGUI():
+def run_GUI():
+    checkRoot()
     try:
         stat, terminalId = commands.getstatusoutput('xdotool getactivewindow')
         from GUI import TickeysApp
@@ -18,10 +19,11 @@ def runInGUI():
 
     except Exception, e:
         print "Run GUI Fail, use CLI instead..Fail msg:%s" % str(e)
-        runInCLI()
+        run_CLI()
 
 
-def runInCLI():
+def run_CLI():
+    checkRoot()
     from CLI import CLI
     CLI().cmdloop()
 
@@ -34,16 +36,18 @@ def checkRoot():
     print "Root checking success.."
 
 
-if __name__ == '__main__':
-    checkRoot()
+def run():
     if len(sys.argv) != 2 or sys.argv[1] not in ['-c', '-g']:
         print "Usage: python run.py -c     ---CLI mode"
         print "       python run.py -g     ---GUI mode"
         if len(sys.argv) == 1:
-            runInGUI()
+            run_GUI()
         sys.exit(0)
     if sys.argv[1] == '-g':
         del sys.argv[1]  # otherwise kivy would regard it as option
-        runInGUI()
+        run_GUI()
     else:
-        runInCLI()
+        run_CLI()
+
+if __name__ == '__main__':
+    run()

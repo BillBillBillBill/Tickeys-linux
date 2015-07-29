@@ -2,7 +2,7 @@
 # coding: utf-8
 import logging
 
-__author__ = 'Huang xiongbiao(billo@qq.com)'
+
 
 logger = logging.getLogger('logger')
 logger.setLevel(logging.INFO)

@@ -3,18 +3,20 @@
 from pygame import mixer
 from logger import logger
 import json
+import os
 
 __author__ = 'Huang xiongbiao(billo@qq.com)'
 
 
-class soundPlayer():
+class SoundPlayer():
 
     def __init__(self):
+        os.chdir(os.path.dirname(__file__))
         self.mixer = mixer
         self.mixer.init(frequency=22050)
         self.config = dict(
             (i['name'], i)
-            for i in json.load(file('../Resources/data/schemes.json')))
+            for i in json.load(file('./Resources/data/schemes.json')))
         self.style = 'bubble'
         self.soundFileList = self.config[self.style]['files']
         self.key_audio_map = self.config[self.style]['key_audio_map']
@@ -33,7 +35,7 @@ class soundPlayer():
             self.mixer.init(frequency=int(self.pitch*22050))
             self.soundEffectCache = []
             for effectFile in self.soundFileList:
-                soundFile = '../Resources/data/%s/%s' % \
+                soundFile = './Resources/data/%s/%s' % \
                     (self.style, effectFile)
                 logger.debug('Load sound file:' + soundFile)
                 self.soundEffectCache.append(self.mixer.Sound(soundFile))

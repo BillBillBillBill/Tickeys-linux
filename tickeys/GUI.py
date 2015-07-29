@@ -4,7 +4,7 @@ from kivy.app import App
 from kivy.uix.spinner import Spinner
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.gridlayout import GridLayout
-from keyboardHandler import keyboardHandler
+from KeyboardHandler import KeyboardHandler
 from kivy.lang import Builder
 import sys
 import commands
@@ -12,7 +12,6 @@ import commands
 reload(sys)
 sys.setdefaultencoding("utf-8")
 
-__author__ = 'Huang xiongbiao(billo@qq.com)'
 
 Builder.load_string('''
 <Main>:
@@ -161,15 +160,16 @@ class Main(GridLayout):
     def __init__(self, *args, **kwargs):
         super(Main, self).__init__(**kwargs)
         self.terminalId = args[0] if args else None
+        self.GUIID = None
         # tool works preget
         if self.terminalId:
             stat, GUIID = commands.getstatusoutput('xdotool getactivewindow')
-            self.GUIID = GUIID if stat == 0 else None
-            # hide itself
             if stat == 0:
+                self.GUIID = GUIID
+            # hide itself
                 commands.getstatusoutput(
                     'xdotool getactivewindow windowminimize')
-        self.detecter = keyboardHandler()
+        self.detecter = KeyboardHandler()
         self.detecter.startDetecting()
         self.detecter.GUIID = self.GUIID
         self.hideTerminal()

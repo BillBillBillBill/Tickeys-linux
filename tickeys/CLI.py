@@ -1,15 +1,12 @@
 #!/usr/bin/env python
 # coding: utf-8
 import cmd
-from keyboardHandler import keyboardHandler
+from KeyboardHandler import KeyboardHandler
 from logger import logger
 import sys
 reload(sys)
 
 sys.setdefaultencoding("utf-8")
-
-__author__ = 'Huang xiongbiao(billo@qq.com)'
-
 
 class CLI(cmd.Cmd):
 
@@ -17,7 +14,7 @@ class CLI(cmd.Cmd):
         cmd.Cmd.__init__(self)
         self.intro = "Tickeys v0.0.1 - Linux\nType 'help' for help"
         self.prompt = ">>> "
-        self.detecter = keyboardHandler()
+        self.detecter = KeyboardHandler()
         self.detecter.startDetecting()
         self.volume = 100.0
         self.pitch = 10.0
