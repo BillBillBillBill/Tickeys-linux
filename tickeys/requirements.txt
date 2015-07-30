@@ -1,6 +1,5 @@
 cython
 Pygments
 evdev
-pygame
 Kivy
 cx_freeze

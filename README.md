@@ -3,6 +3,11 @@
 
 Instant audio feedback when typing. For Linux.
 
+# 简介
+Tickeys是一款很强大的键盘音效软件。Tickeys 自带了四种声音效果方案，有打字机、冒泡、机械键盘、剑气等。每天都听着键盘声音是不是很烦闷，现在有了这款神器你就可以瞬间帮助自己的键盘加上逼格特效。
+
+这个软件之前发布了Windows和Mac版，Tickeys 是由 Nozama 所做的一个 Mac 平台的开源小项目 ([GitHub](https://github.com/yingDev/Tickeys))，Windows 版由黄飞实现。我使用了下，觉得挺有意思的，因此用Python写了个Linux版的。
+
 # 项目网站
 http://www.yingdev.com/projects/tickeys
 
@@ -38,7 +43,7 @@ https://github.com/yingDev/Tickeys
 ###方法3.直接下载编译好的程序
 
 * 下载本目录下的tickeys-v0.1.0a3.tar.gz，解压
-* 打开文件夹 然后 `sudo chmod 777 tickeys & sudo chmod 777 run`
+* 打开文件夹 然后 `sudo chmod 777 tickeys && sudo chmod 777 run`
 * 然后打开tickeys
 * 打开CLI版本： `sudo sh tickeys -c`
 
