@@ -37,9 +37,11 @@ https://github.com/yingDev/Tickeys
 
 ###方法3.直接下载编译好的程序
 
-* 打开方法：打开文件夹 然后 `sudo chmod 777 tickeys & sudo chmod 777 run`
-* 然后打开tickeys即可
+* 下载本目录下的tickeys-v0.1.0a3.tar.gz，解压
+* 打开文件夹 然后 `sudo chmod 777 tickeys & sudo chmod 777 run`
+* 然后打开tickeys
 * 打开CLI版本： `sudo sh tickeys -c`
+
 
 ###方法4.在本地打包成可执行程序
 
