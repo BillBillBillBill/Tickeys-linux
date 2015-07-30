@@ -11,7 +11,10 @@ __author__ = 'Huang xiongbiao(billo@qq.com)'
 class SoundPlayer():
 
     def __init__(self):
-        os.chdir(os.path.dirname(__file__))
+        try:
+            os.chdir(os.path.dirname(__file__))
+        except Exception:
+            pass
         self.mixer = mixer
         self.mixer.init(frequency=22050)
         self.config = dict(

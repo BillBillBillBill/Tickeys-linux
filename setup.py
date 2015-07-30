@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 from tickeys import __version__, __author__, __email__
 
 requirements = [
-    'pygame',
+    'cython',
     'Kivy',
     'evdev',
 ]
@@ -14,7 +14,7 @@ setup(name='tickeys',
       packages=['tickeys'],
       package_dir={'tickeys': 'tickeys'},
       include_package_data=True,
-      package_data={'tickeys': ['*.*', '../README.md', '../LICENSE', '../AUTHOURS']},
+      package_data={'tickeys': ['*.*']},
       # data_files=[],
       classifiers=[
           'Intended Audience :: End Users/Desktop',
@@ -28,7 +28,7 @@ setup(name='tickeys',
       author=__author__,
       author_email=__email__,
       description='Instant audio feedback when typing. For Linux.',
-      long_description=open('tickeys/readme.txt').read(),
+      long_description=open('README.md').read(),
       keywords='keyboard typing audio feedback ',
       url='https://github.com/BillBillBillBill/Tickeys-linux',
       license='MIT',
