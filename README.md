@@ -4,18 +4,15 @@
 Instant audio feedback when typing. For Linux.
 
 # 项目网站
-======
 http://www.yingdev.com/projects/tickeys
 
 PyPI: https://pypi.python.org/pypi/tickeys 
 
 # Tickeys的Mac版本
-======
 https://github.com/yingDev/Tickeys
 
 
 # 安装说明
-=======
 实现了CLI版本和GUI版本，默认启动GUI版本，GUI版本启动后会自动隐藏，按QAZ123唤出窗口。
 在不同发行版上可能会有因为文件的缺失或者环境不同导致无法使用，需要安装相关依赖。
 
@@ -73,7 +70,6 @@ Debian and Ubuntu 用户则可以尝试安装:
     * sudo apt-get install libsdl-ttf2.0
 
 # 开发
-========
 * ####编码规范: PEP8
 
 * ####应用UI框架：Kivy
@@ -109,7 +105,6 @@ xdotool的使用：
 
 
 # 项目结构
-=========
 Tickeys-linux
 ```
 ├── AUTHOURS
@@ -141,7 +136,6 @@ Tickeys-linux
 ```
 
 # 文件说明
-=========
 * build.py 打包函数
 
 * run.py 存放入口函数
@@ -167,13 +161,11 @@ Tickeys-linux
 
 
 # 问题
-========
 * 目前在Fedora上好像无法使用GUI的，不知道是因为我用虚拟机开的问题还是Kivy这个框架的问题，因为提示The 3D features of the virtual machine will be disabled。
 
 * 用pyinstaller来打包会有很多模块打包不进去，故使用cx_freeze打包
 
 # 作者
-========
 Huang Xiongbiao
 
 billo@qq.com
