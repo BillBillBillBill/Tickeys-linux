@@ -6,3 +6,4 @@ include tickeys/tickeys.png
 include README.md
 include LICENSE
 include AUTHOURS
+include Changelog

@@ -21,24 +21,17 @@ https://github.com/yingDev/Tickeys
 实现了CLI版本和GUI版本，默认启动GUI版本，GUI版本启动后会自动隐藏，按QAZ123唤出窗口。
 在不同发行版上可能会有因为文件的缺失或者环境不同导致无法使用，需要安装相关依赖。
 
+* **方法1,2,4**需要先执行`sudo apt-get install python-kivy && sudo apt-get install python-dev`安装依赖
+
 ###方法1.自动安装
 
-* 使用`sudo apt-get install python-pygame`安装pygame 
 * 执行`sudo easy_install tickeys` or `sudo pip install tickeys`安装
 * 然后通过 `sudo tickeys` 来打开 (sudo tickeys -c 打开CLI版本)
 
-
 ###方法2.半自动安装
 
-* 使用`sudo apt-get install python-pygame`安装pygame
-* 先下载 https://github.com/BillBillBillBill/Tickeys-linux/archive/master.zip ，解压后运行 `sudo python setup.py install`
+* 下载 https://github.com/BillBillBillBill/Tickeys-linux/archive/master.zip ，解压后运行 `sudo python setup.py install`
 * 然后通过 `sudo tickeys` 来打开 (sudo tickeys -c 打开CLI版本)
-
-        若没有setuptools 使用`sudo apt-get install python-setuptools` 安装
-
-        提示Python.h：没有那个文件或目录 使用`sudo apt-get install python-dev`安装
-
-        提示ImportError: No module named Cython.Distutils  使用`sudo easy_install cython`安装
 
 ###方法3.直接下载编译好的程序
 
@@ -47,22 +40,30 @@ https://github.com/yingDev/Tickeys
 * 然后打开tickeys
 * 打开CLI版本： `sudo sh tickeys -c`
 
-
 ###方法4.在本地打包成可执行程序
 
 * 先下载 https://github.com/BillBillBillBill/Tickeys-linux/archive/master.zip ，解压后运行 `pip install -r requirements.txt`来安装依赖
 * 然后使用cx_freeze进行打包：`sudo python bulid.py bulid`
-* 然后下面跟方法2一样
+* 然后下面跟方法2一样打开
 
-#### 报错解决方案：
+#### 其他错误解决方案：
 
-提示：
+* 若没有setuptools or pip
+
+解决方法：使用`sudo apt-get install python-pip` 安装
+
+* Python.h：没有那个文件或目录 
+
+解决方法：使用`sudo apt-get install python-dev`安装
+
+* ImportError: No module named Cython.Distutils  
+
+解决方法：使用`sudo easy_install cython`安装
+
 
 * ImportError: libSDL-1.2.so.0: cannot open shared object file: No such file or directory
 
     解决方法：使用`yum install libSDL-1.2.so.0`安装依赖
-
-提示：
 
 * NotImplementedError: mixer module not available
 

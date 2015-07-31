@@ -8,6 +8,7 @@ from KeyboardHandler import KeyboardHandler
 from kivy.lang import Builder
 import sys
 import commands
+import webbrowser
 
 reload(sys)
 sys.setdefaultencoding("utf-8")
@@ -26,7 +27,7 @@ Builder.load_string('''
 
     canvas:
         Color:
-            rgb: 0.7, 0.7, 0.7, 0.1
+            rgb: 0.42, 0.42, 0.42, 1
         Rectangle:
             pos: 0,0
             size: self.size
@@ -46,7 +47,7 @@ Builder.load_string('''
 <AdjustVol>
     Label:
         bold: True
-        color: 0, 0, 0, 1
+        color: 1, 1, 1, 1
         font_size: 25
         size_hint_x: None
         width: 250
@@ -61,7 +62,7 @@ Builder.load_string('''
 <AdjustPitch>
     Label:
         bold: True
-        color: 0, 0, 0, 1
+        color: 1, 1, 1, 1
         font_size: 25
         size_hint_x: None
         width: 250
@@ -77,7 +78,7 @@ Builder.load_string('''
 <SpinnerRow>:
     Label:
         bold: True
-        color: 0, 0, 0, 1
+        color: 1, 1, 1, 1
         font_size: 25
         size_hint_x: None
         text: "Sound Effect:"
@@ -90,35 +91,37 @@ Builder.load_string('''
     bold: True
     font_size: 25
     text: 'bubble'
-    background_color: 255, 255, 255, 1
-    color: 0, 0, 0, 1
+    background_color: 2, 2, 2, 1
+    color: 1, 1, 1, 1
     values:['bubble', 'mechanical', 'sword', 'typewriter',]
 
 <ExitButton>:
     Label:
     Button:
+        background_color: 2, 2, 2, 1
         bold: True
         text: "EXIT"
         color: 0,0,0,1
-        background_color: 255.0, 255.0, 255.0, 1.0
         on_press: root.Exit()
     Label:
 
 <InforRow>:
     Label:
-        color: 0, 0, 0, 1
+        color: 0.7, 0.7, 0.7, 1
         font_size: 23
         size_hint_x: None
         text: "Tickeys for linux"
         width: 250
     Label:
-        color: 0, 0, 0, 1
+        color: 0.8, 0.8, 0.8, 1
         font_size: 20
         size_hint_x: None
-        text: "v0.0.1"
+        markup: True
+        text: "[ref=->website]Project website[/ref]"
         width: 250
+        on_ref_press:root.openProjectWebsite()
     Label:
-        color: 0, 0, 0, 1
+        color: 0.8, 0.8, 0.8, 1
         font_size: 18
         size_hint_x: None
         text: "Author: Bill (billo@qq.com)"
@@ -153,7 +156,8 @@ class ExitButton(BoxLayout):
 
 
 class InforRow(BoxLayout):
-    pass
+    def openProjectWebsite(self):
+        webbrowser.open_new("http://www.yingdev.com/projects/tickeys")
 
 
 class Main(GridLayout):
@@ -204,6 +208,7 @@ class TickeysApp(App):
         self.terminalId = args[0] if args else None
 
     def build(self):
+        self.icon = 'tickeys.png'
         root = Main(self.terminalId)
         return root
 
