@@ -2,7 +2,6 @@ from setuptools import setup, find_packages
 from tickeys import __version__, __author__, __email__
 
 requirements = [
-    'cython',
     'Kivy',
     'evdev',
 ]

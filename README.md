@@ -21,7 +21,7 @@ https://github.com/yingDev/Tickeys
 实现了CLI版本和GUI版本，默认启动GUI版本，GUI版本启动后会自动隐藏，按QAZ123唤出窗口。
 在不同发行版上可能会有因为文件的缺失或者环境不同导致无法使用，需要安装相关依赖。
 
-* **方法1,2,4**需要先执行`sudo apt-get install python-kivy && sudo apt-get install python-dev`安装依赖
+* 以下方法需要**先执行**`sudo apt-get install python-dev python-kivy`来安装依赖，一般这样就可以满足运行条件了。
 
 ###方法1.自动安装
 
@@ -42,11 +42,15 @@ https://github.com/yingDev/Tickeys
 
 ###方法4.在本地打包成可执行程序
 
-* 先下载 https://github.com/BillBillBillBill/Tickeys-linux/archive/master.zip ，解压后运行 `pip install -r requirements.txt`来安装依赖
+* 先下载 https://github.com/BillBillBillBill/Tickeys-linux/archive/master.zip
 * 然后使用cx_freeze进行打包：`sudo python bulid.py bulid`
 * 然后下面跟方法2一样打开
 
 #### 其他错误解决方案：
+
+* 无法隐藏窗口：
+
+解决方法：使用`sudo apt-get install xdotool `安装xdotool
 
 * 若没有setuptools or pip
 
@@ -68,6 +72,7 @@ https://github.com/yingDev/Tickeys
 * NotImplementedError: mixer module not available
 
     解决方法：同上
+
 
 
 Debian and Ubuntu 用户则可以尝试安装:
@@ -138,6 +143,7 @@ Tickeys-linux
     │       └── schemes.json
     ├── run.py
     ├── SoundPlayer.py
+    ├── StartupHandler.py
     ├── tickeys
     ├── tickeys.png
     └── tickeysui.kv

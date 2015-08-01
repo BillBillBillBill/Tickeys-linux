@@ -3,6 +3,7 @@
 import cmd
 from KeyboardHandler import KeyboardHandler
 from logger import logger
+from __init__ import __version__
 import sys
 reload(sys)
 
@@ -12,7 +13,7 @@ class CLI(cmd.Cmd):
 
     def __init__(self):
         cmd.Cmd.__init__(self)
-        self.intro = "Tickeys v0.0.1 - Linux\nType 'help' for help"
+        self.intro = "Tickeys %s - Linux\nType 'help' for help" % __version__
         self.prompt = ">>> "
         self.detecter = KeyboardHandler()
         self.detecter.startDetecting()
