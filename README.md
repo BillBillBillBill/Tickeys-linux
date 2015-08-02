@@ -35,7 +35,7 @@ https://github.com/yingDev/Tickeys
 
 ###方法3.直接下载编译好的程序
 
-* 下载本目录下的tickeys-v0.1.0a3.tar.gz，解压
+* 通过本目录下载tickeys-v0.1.1a5.tar.gz或通过http://pan.plyz.net/d.asp?u=570504130&p=tickeys-v0.1.1a5.tar.gz下载
 * 打开文件夹 然后 `sudo chmod 777 tickeys && sudo chmod 777 run`
 * 然后打开tickeys
 * 打开CLI版本： `sudo sh tickeys -c`
@@ -172,6 +172,7 @@ Tickeys-linux
 
 * SoundPlayer.py 播放声效的模块
 
+* StartupHandler.py 控制开机自启动的模块
 
 
 # 问题
