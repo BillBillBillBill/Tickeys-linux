@@ -35,7 +35,7 @@ https://github.com/yingDev/Tickeys
 
 ###方法3.直接下载编译好的程序
 
-* 通过本目录下载tickeys-v0.1.1a5.tar.gz或通过http://pan.plyz.net/d.asp?u=570504130&p=tickeys-v0.1.1a5.tar.gz下载
+* 通过本目录下载tickeys-v0.1.1a5.tar.gz或通过 http://pan.plyz.net/d.asp?u=570504130&p=tickeys-v0.1.1a5.tar.gz 下载
 * 打开文件夹 然后 `sudo chmod 777 tickeys && sudo chmod 777 run`
 * 然后打开tickeys
 * 打开CLI版本： `sudo sh tickeys -c`
@@ -132,7 +132,6 @@ Tickeys-linux
     ├── __init__.py
     ├── KeyboardHandler.py
     ├── logger.py
-    ├── readme.txt
     ├── requirements.txt
     ├── Resources
     │   └── data
