@@ -49,8 +49,8 @@ class KeyboardHandler():
     def showGUI(self):
         if not self.GUIID:
             return
-        commands.getstatusoutput(
-            "xdotool windowactivate --sync %s" % self.GUIID)
+        command = "xdotool windowactivate --sync %s" % self.GUIID
+        commands.getstatusoutput(command)
 
     # return with a list of keyboard's event
     def findKeyboard(self):
@@ -58,19 +58,32 @@ class KeyboardHandler():
         keyboardList = []
         for event in os.listdir(deviceFilePath):
             namePath = deviceFilePath + event + '/device/name'
-            isFind = os.path.isfile(namePath) and \
-                file(namePath).read().lower().find('keyboard') != -1
-            if isFind:
+            namePathExist = os.path.isfile(namePath)
+            deviceName = file(namePath).read().lower() if namePathExist else None
+
+            if deviceName and deviceName.find('keyboard') != -1:
+                keyboardList.append(event)
+                continue
+
+            # check other USB device
+            bustypePath = deviceFilePath + event + '/device/id/bustype'
+            bustypePathExist = os.path.isfile(bustypePath)
+            bustype = file(bustypePath).read() if bustypePathExist else None
+            # 0003 = USB device, consider it !mouse = keyboard :)
+            isUSBKB = bustype and bustype.find('0003') != -1 and \
+                deviceName and deviceName.find('mouse') == -1
+            if isUSBKB:
                 keyboardList.append(event)
 
         try:
-            assert len(keyboardList) >= 1
+            logger.debug(keyboardList)
+            assert len(keyboardList) > 0
         except AssertionError:
             logger.error("Keyborad Not Found!!")
-            keyboardList = ['event4']
 
         return keyboardList
 
+    # event.value:1 for pressed, 0 for release
     def detectInputKey(self, eventName):
         dev = InputDevice('/dev/input/' + eventName)
         while True:
@@ -84,6 +97,7 @@ class KeyboardHandler():
                         "Key: %s Status: %s" %
                         (event.code, "pressed" if event.value else "release"))
 
+    # check input if satisfy the hotkey
     def checkShowWindow(self, keycode):
         if len(self.inputRecord) > 0 and keycode == self.inputRecord[-1]:
             return
@@ -103,6 +117,7 @@ class KeyboardHandler():
             self.threads.append(t)
             t.start()
 
+    # kill all threads
     def stopDetecting(self):
         for t in self.threads:
             t._Thread__stop()

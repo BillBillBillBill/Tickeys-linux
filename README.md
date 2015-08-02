@@ -19,9 +19,13 @@ https://github.com/yingDev/Tickeys
 
 # 安装说明
 实现了CLI版本和GUI版本，默认启动GUI版本，GUI版本启动后会自动隐藏，按QAZ123唤出窗口。
+
 在不同发行版上可能会有因为文件的缺失或者环境不同导致无法使用，需要安装相关依赖。
 
-* 以下方法需要**先执行**`sudo apt-get install python-dev python-kivy`来安装依赖，一般这样就可以满足运行条件了。
+* 快速安装（最方便）：执行`sudo apt-get install python-dev python-pip python-kivy xdotool && sudo easy_install tickeys`，使用此命令可忽略下面的方法。
+
+
+* 以下方法需要**先执行**`sudo apt-get install python-dev python-pip python-kivy xdotool`来安装依赖，一般这样就可以满足运行条件了。
 
 ###方法1.自动安装
 

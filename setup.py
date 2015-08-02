@@ -35,5 +35,4 @@ setup(name='tickeys',
           'console_scripts': ['tickeys = tickeys:run']
       },
       install_requires=requirements,
-      tests_require=requirements
-)
+      tests_require=requirements)
