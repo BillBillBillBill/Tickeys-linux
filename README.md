@@ -1,12 +1,12 @@
 # Tickeys-linux
-![Tickeys Icon](http://ww1.sinaimg.cn/large/8cc88963gw1er08h49mp5j203k03kdfx.jpg)
+![Tickeys Icon](http://img.blog.csdn.net/20150802103616846)
 
 Instant audio feedback when typing. For Linux.
 
 # 简介
 Tickeys是一款很强大的键盘音效软件。Tickeys 自带了四种声音效果方案，有打字机、冒泡、机械键盘、剑气等。每天都听着键盘声音是不是很烦闷，现在有了这款神器你就可以瞬间帮助自己的键盘加上逼格特效。
 
-这个软件之前发布了Windows和Mac版，Tickeys 是由 Nozama 所做的一个 Mac 平台的开源小项目 ([GitHub](https://github.com/yingDev/Tickeys))，Windows 版由黄飞实现。我使用了下，觉得挺有意思的，因此用Python写了个Linux版的。
+这个软件之前发布了Windows和Mac版，Tickeys 是由 Nozama 所做的一个 Mac 平台的开源小项目 ([GitHub](https://github.com/yingDev/Tickeys))，Windows 版由黄飞实现。我使用了之后，觉得挺有意思的，因此用Python写了个Linux版的。
 
 # 项目网站
 http://www.yingdev.com/projects/tickeys
@@ -20,8 +20,7 @@ https://github.com/yingDev/Tickeys
 # 安装说明
 在不同发行版上可能会有因为文件的缺失或者环境不同导致无法使用，需要安装相关依赖。
 
-* **快速安装**（最方便）：执行`sudo apt-get install python-dev python-pip python-kivy xdotool && sudo easy_install tickeys`，使用此命令可忽略下面的方法。
-
+#### 快速安装（最方便）：执行`sudo apt-get install python-dev python-pip python-kivy xdotool && sudo easy_install tickeys`，使用此命令可忽略下面的方法。
 
 * 以下方法需要**先执行**`sudo apt-get install python-dev python-pip python-kivy xdotool`来安装依赖，一般这样就可以满足运行条件了。
 
@@ -138,6 +137,7 @@ Tickeys-linux
     ├── build.py
     ├── CLI.py
     ├── GUI.py
+    ├── config.py
     ├── __init__.py
     ├── KeyboardHandler.py
     ├── logger.py
@@ -171,6 +171,8 @@ Tickeys-linux
 * CLI.py 启动CLI的模块
 
 * GUI.py 启动GUI的模块
+
+* config.py 处理配置保存和读取的模块
 
 * tickeysui.kv kv的ui文件，当在GUI中不使用load_string来创建时把此文件更名为Tickeys.kv使用
 
