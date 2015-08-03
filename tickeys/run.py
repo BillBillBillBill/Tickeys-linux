@@ -8,7 +8,7 @@ __author__ = 'Huang xiongbiao(billo@qq.com)'
 
 
 def run_GUI():
-    checkRoot()
+    check_root()
     try:
         stat, terminalId = commands.getstatusoutput('xdotool getactivewindow')
         from GUI import TickeysApp
@@ -23,12 +23,12 @@ def run_GUI():
 
 
 def run_CLI():
-    checkRoot()
+    check_root()
     from CLI import CLI
     CLI().cmdloop()
 
 
-def checkRoot():
+def check_root():
     print "Root checking..."
     if os.getegid() != 0:
         print "This program must be run as root.."

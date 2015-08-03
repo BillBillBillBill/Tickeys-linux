@@ -18,11 +18,9 @@ https://github.com/yingDev/Tickeys
 
 
 # 安装说明
-实现了CLI版本和GUI版本，默认启动GUI版本，GUI版本启动后会自动隐藏，按QAZ123唤出窗口。
-
 在不同发行版上可能会有因为文件的缺失或者环境不同导致无法使用，需要安装相关依赖。
 
-* 快速安装（最方便）：执行`sudo apt-get install python-dev python-pip python-kivy xdotool && sudo easy_install tickeys`，使用此命令可忽略下面的方法。
+* **快速安装**（最方便）：执行`sudo apt-get install python-dev python-pip python-kivy xdotool && sudo easy_install tickeys`，使用此命令可忽略下面的方法。
 
 
 * 以下方法需要**先执行**`sudo apt-get install python-dev python-pip python-kivy xdotool`来安装依赖，一般这样就可以满足运行条件了。
@@ -85,6 +83,13 @@ Debian and Ubuntu 用户则可以尝试安装:
     * sudo apt-get install libsdl1.2-dev
     * sudo apt-get install libsdl-mixer1.2
     * sudo apt-get install libsdl-ttf2.0
+
+# 使用说明
+需要以root权限才能启动，实现了CLI版本和GUI版本，默认启动GUI版本，GUI版本启动后会自动隐藏，按QAZ123唤出窗口。
+
+调整参数后会自动保存，下次开启会使用该设置。
+
+Open at startup是开启开机自启动功能选项，开关置为ON开启功能，开关置为OFF关闭功能。
 
 # 开发
 * ####编码规范: PEP8

@@ -7,6 +7,7 @@ from kivy.uix.gridlayout import GridLayout
 from KeyboardHandler import KeyboardHandler
 from kivy.lang import Builder
 from StartupHandler import add_startup_linux, check_startup_file, delete_startup_linux
+from config import Configer
 from __init__ import __version__
 
 import sys
@@ -56,7 +57,7 @@ Builder.load_string('''
     Slider:
         min: 0.0
         max: 1.0
-        value: 1.0
+        value: root.parent.Configer.volume
         width: 300
         on_value: root.setVolume(self.value)
 
@@ -71,7 +72,7 @@ Builder.load_string('''
     Slider:
         min: 0.0
         max: 3.0
-        value: 1.0
+        value: root.parent.Configer.pitch
         width: 300
         on_value: root.setPitch(self.value)
 
@@ -91,7 +92,7 @@ Builder.load_string('''
 <EffectSpinner>:
     bold: True
     font_size: 25
-    text: 'bubble'
+    text: root.parent.parent.Configer.style
     background_color: 2, 2, 2, 1
     color: 1, 1, 1, 1
     values:['bubble', 'mechanical', 'sword', 'typewriter',]
@@ -131,7 +132,7 @@ Builder.load_string('''
         color: 0.7, 0.7, 0.7, 1
         font_size: 23
         size_hint_x: None
-        text: root.getVersion()
+        text: root.get_version()
         width: root.width/3.0
     Label:
         color: 0.8, 0.8, 0.8, 1
@@ -140,7 +141,7 @@ Builder.load_string('''
         markup: True
         text: "[ref=->website]Project website[/ref]"
         width: root.width/3.0
-        on_ref_press:root.openProjectWebsite()
+        on_ref_press:root.open_project_website()
     Label:
         color: 0.8, 0.8, 0.8, 1
         font_size: 18
@@ -158,17 +159,17 @@ class EffectSpinner(Spinner):
 
 class SpinnerRow(BoxLayout):
     def change_style(self):
-        self.parent.detecter.setStyle(self.children[0].text)
+        self.parent.detecter.set_style(self.children[0].text)
 
 
 class AdjustVol(BoxLayout):
     def setVolume(self, volume):
-        self.parent.detecter.setVolume(volume)
+        self.parent.detecter.set_volume(volume)
 
 
 class AdjustPitch(BoxLayout):
     def setPitch(self, pitch):
-        self.parent.detecter.setPitch(pitch)
+        self.parent.detecter.set_pitch(pitch)
 
 
 class SwitcherRow(BoxLayout):
@@ -191,15 +192,16 @@ class ExitAndSwitchRow(BoxLayout):
 
 
 class InforRow(BoxLayout):
-    def openProjectWebsite(self):
+    def open_project_website(self):
         webbrowser.open_new("http://www.yingdev.com/projects/tickeys")
 
-    def getVersion(self):
+    def get_version(self):
         return 'Version: '+__version__
 
 
 class Main(GridLayout):
     def __init__(self, *args, **kwargs):
+        self.Configer = Configer()
         super(Main, self).__init__(**kwargs)
         self.terminalId = args[0] if args else None
         self.GUIID = None
@@ -212,15 +214,15 @@ class Main(GridLayout):
                 commands.getstatusoutput(
                     'xdotool getactivewindow windowminimize')
         self.detecter = KeyboardHandler()
-        self.detecter.startDetecting()
+        self.detecter.start_detecting()
         self.detecter.GUIID = self.GUIID
-        self.hideTerminal()
+        self.hide_terminal()
 
     # @property
     # def detecter(self):
     #     return self.detecter
 
-    def hideTerminal(self):
+    def hide_terminal(self):
         if not self.terminalId:
             return
         commands.getstatusoutput(
@@ -230,7 +232,7 @@ class Main(GridLayout):
         # if want to show terminal use windowminimize
 
     def Exit(self):
-        self.detecter.stopDetecting()
+        self.detecter.stop_detecting()
         # Show the terminal
         # if self.terminalId:
         #     commands.getstatusoutput(

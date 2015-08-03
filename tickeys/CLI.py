@@ -9,6 +9,7 @@ reload(sys)
 
 sys.setdefaultencoding("utf-8")
 
+
 class CLI(cmd.Cmd):
 
     def __init__(self):
@@ -16,10 +17,11 @@ class CLI(cmd.Cmd):
         self.intro = "Tickeys %s - Linux\nType 'help' for help" % __version__
         self.prompt = ">>> "
         self.detecter = KeyboardHandler()
-        self.detecter.startDetecting()
-        self.volume = 100.0
-        self.pitch = 10.0
-        self.style = 'bubble'
+        self.detecter.start_detecting()
+
+        self.volume = self.detecter.get_player_infor()['volume'] * 100.0
+        self.pitch = self.detecter.get_player_infor()['pitch'] * 10.0
+        self.style = self.detecter.get_player_infor()['style']
 
     def default(self, line):
         print "Command '%s' is invalid, try 'help'" % line
@@ -41,7 +43,7 @@ class CLI(cmd.Cmd):
             return
 
         self.style = style_list[style_index]
-        self.detecter.setStyle(self.style)
+        self.detecter.set_style(self.style)
 
     def help_setvol(self):
         print "Set volume, input the volume you want"
@@ -57,7 +59,7 @@ class CLI(cmd.Cmd):
             return
 
         self.volume = volume
-        self.detecter.setVolume(self.volume/100.0)
+        self.detecter.set_volume(self.volume/100.0)
 
     def help_getvol(self):
         print "Get the volume"
@@ -79,7 +81,7 @@ class CLI(cmd.Cmd):
             return
 
         self.pitch = pitch
-        self.detecter.setPitch(self.pitch/10.0)
+        self.detecter.set_pitch(self.pitch/10.0)
 
     def help_getpitch(self):
         print "Get the pitch"
@@ -96,7 +98,7 @@ class CLI(cmd.Cmd):
 
     def do_quit(self, arg):
         try:
-            self.detecter.stopDetecting()
+            self.detecter.stop_detecting()
         except Exception:
             pass
         finally:

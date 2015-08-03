@@ -2,6 +2,7 @@
 # coding: utf-8
 from pygame import mixer
 from logger import logger
+from config import Configer
 import json
 import os
 
@@ -17,63 +18,79 @@ class SoundPlayer():
             pass
         self.mixer = mixer
         self.mixer.init(frequency=22050)
-        self.config = dict(
+        self.schemes = dict(
             (i['name'], i)
             for i in json.load(file('./Resources/data/schemes.json')))
-        self.style = 'bubble'
-        self.soundFileList = self.config[self.style]['files']
-        self.key_audio_map = self.config[self.style]['key_audio_map']
-        self.non_unique_count = self.config[self.style]['non_unique_count']
+        self.Configer = Configer()
+        self.soundFileList = self.schemes[self.Configer.style]['files']
+        self.key_audio_map = self.schemes[self.Configer.style]['key_audio_map']
+        self.non_unique_count = self.schemes[self.Configer.style]['non_unique_count']
+        self.set_pitch(self.Configer.pitch)
+        self.changing = False  # avoiding play sound while caching
         self.soundEffectCache = []
-        self.volume = 1.0
-        self.pitch = 1.0
-        self.changing = False
-        self.cacheSoundEffect()
+        self.cache_sound_effect()
 
     # preload sound effect
-    def cacheSoundEffect(self):
+    def cache_sound_effect(self):
         try:
             self.changing = True
             self.mixer.quit()
-            self.mixer.init(frequency=int(self.pitch*22050))
+            self.mixer.init(frequency=int(self.adjustPitch*22050))
             self.soundEffectCache = []
             for effectFile in self.soundFileList:
                 soundFile = './Resources/data/%s/%s' % \
-                    (self.style, effectFile)
+                    (self.Configer.style, effectFile)
                 logger.debug('Load sound file:' + soundFile)
                 self.soundEffectCache.append(self.mixer.Sound(soundFile))
-            self.setVolume(self.volume)
+            self.set_volume(self.Configer.volume)
 
         except Exception, e:
             logger.error('Load sound files fail:' + str(e))
         finally:
             self.changing = False
 
-    def setStyle(self, style):
+    def save_config(func):
+        def _deco(*arg):
+            ret = func(*arg)
+            arg[0].Configer.save_config()
+            return ret
+        return _deco
+
+    @save_config
+    def set_style(self, style):
         try:
-            if self.style == style:
+            if self.Configer.style == style:
                 return
-            self.style = style
-            self.soundFileList = self.config[self.style]['files']
-            self.key_audio_map = self.config[self.style]['key_audio_map']
-            self.non_unique_count = self.config[self.style]['non_unique_count']
-            self.cacheSoundEffect()
+            self.Configer.style = style
+            self.soundFileList = self.schemes[self.Configer.style]['files']
+            self.key_audio_map = self.schemes[self.Configer.style]['key_audio_map']
+            self.non_unique_count = self.schemes[self.Configer.style]['non_unique_count']
+            self.cache_sound_effect()
         except Exception, e:
             logger.error(e)
 
-    def setVolume(self, volume):
-        self.volume = volume
+    @save_config
+    def set_volume(self, volume):
+        self.Configer.volume = volume
         for soundEffect in self.soundEffectCache:
-            soundEffect.set_volume(self.volume)
+            soundEffect.set_volume(self.Configer.volume)
 
     # May raise nonfluency when init the mixer
-    def setPitch(self, pitch):
+    @save_config
+    def set_pitch(self, pitch):
         # if abs(self.mixer.get_init()[0]/22050.0 - pitch) < 0.1:
         #     return
         # it's weird
-        pitch = 0.65 + 0.3 * pitch if pitch < 1 else pitch + 0.9
-        self.pitch = pitch
-        self.cacheSoundEffect()
+        self.Configer.pitch = pitch
+        self.adjustPitch = 0.65 + 0.3 * pitch if pitch < 1 else pitch + 0.9
+        self.cache_sound_effect()
+
+    def get_infor(self):
+        return {
+            'style': self.Configer.style,
+            'volume': self.Configer.volume,
+            'pitch': self.Configer.pitch,
+        }
 
     def play(self, key):
 
