@@ -1,10 +1,15 @@
 import ConfigParser
+import os
 from logger import logger
 
 
 class Configer():
     """docstring for Configer"""
     def __init__(self, *arg):
+        try:
+            os.chdir(os.path.dirname(__file__))
+        except Exception:
+            pass
         self.cf = ConfigParser.ConfigParser()
         self.read_config()
 
