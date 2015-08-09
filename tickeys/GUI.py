@@ -11,6 +11,7 @@ from config import Configer
 from __init__ import __version__
 
 import sys
+import os
 import commands
 import webbrowser
 reload(sys)
@@ -153,6 +154,19 @@ Builder.load_string('''
 '''.encode('utf-8'))
 
 
+def show_notify():
+    try:
+        import pynotify
+        pynotify.init('Tickeys')
+        title = '<h2>Tickeys</h2>'
+        body = '<span style="color: #00B8CB; font-size:15px">Tickeys</span>正在运行\n随时按<span style="color: #00B8CB">QAZ123</span>唤出设置窗口'
+        iconfile = os.getcwd() + '/tickeys.png'
+        notify = pynotify.Notification(title, body, iconfile)
+        notify.show()
+    except Exception:
+        return
+
+
 class EffectSpinner(Spinner):
     pass
 
@@ -217,6 +231,7 @@ class Main(GridLayout):
         self.detecter.start_detecting()
         self.detecter.GUIID = self.GUIID
         self.hide_terminal()
+        show_notify()
 
     # @property
     # def detecter(self):
@@ -248,8 +263,8 @@ class TickeysApp(App):
         self.terminalId = args[0] if args else None
 
     def build(self):
-        root = Main(self.terminalId)
         self.icon = 'tickeys.png'
+        root = Main(self.terminalId)
         return root
 
     def on_stop(self):

@@ -1,6 +1,6 @@
 __author__ = 'Huang Xiongbiao'
 __email__ = 'billo@qq.com'
-__version__ = '0.1.3'
+__version__ = '0.1.4'
 
 from run import run
 
