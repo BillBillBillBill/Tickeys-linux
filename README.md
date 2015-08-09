@@ -16,7 +16,6 @@ PyPI: https://pypi.python.org/pypi/tickeys
 # Tickeys的Mac版本
 https://github.com/yingDev/Tickeys
 
-
 # 安装说明
 在不同发行版上可能会有因为文件的缺失或者环境不同导致无法使用，需要安装相关依赖。
 
@@ -74,8 +73,6 @@ https://github.com/yingDev/Tickeys
 
     解决方法：同上
 
-
-
 Debian and Ubuntu 用户则可以尝试安装:
 
     * sudo apt-get install xdotool 
@@ -89,6 +86,10 @@ Debian and Ubuntu 用户则可以尝试安装:
 调整参数后会自动保存，下次开启会使用该设置。
 
 Open at startup是开启开机自启动功能选项，开关置为ON开启功能，开关置为OFF关闭功能。
+
+# TODO
+1.打开程序后出现气泡提醒
+2.使GUI真正后台化
 
 # 开发
 * ####编码规范: PEP8
