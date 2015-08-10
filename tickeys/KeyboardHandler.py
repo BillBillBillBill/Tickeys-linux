@@ -53,7 +53,8 @@ class KeyboardHandler():
     def show_GUI(self):
         if not self.GUIID:
             return
-        command = "xdotool windowactivate --sync %s" % self.GUIID
+        # command = "xdotool windowactivate --sync %s" % self.GUIID
+        command = "xdotool windowmap --sync %s && xdotool windowactivate --sync %s" % (self.GUIID, self.GUIID)
         commands.getstatusoutput(command)
 
     # new way to find keyboard

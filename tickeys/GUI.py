@@ -7,8 +7,10 @@ from kivy.uix.gridlayout import GridLayout
 from KeyboardHandler import KeyboardHandler
 from kivy.lang import Builder
 from StartupHandler import add_startup_linux, check_startup_file, delete_startup_linux
+from logger import logger
 from config import Configer
 from __init__ import __version__
+
 
 import sys
 import os
@@ -43,7 +45,6 @@ Builder.load_string('''
     AdjustVol
     AdjustPitch
     ExitAndSwitchRow
-
     InforRow
 
 
@@ -95,7 +96,7 @@ Builder.load_string('''
     font_size: 25
     text: root.parent.parent.Configer.style
     background_color: 2, 2, 2, 1
-    color: 1, 1, 1, 1
+    color: 0.1, 0.67, 0.93, 1
     values:['bubble', 'mechanical', 'sword', 'typewriter',]
 
 <ExitAndSwitchRow>:
@@ -125,7 +126,17 @@ Builder.load_string('''
         text: "EXIT"
         color: 0,0,0,1
         on_press: root.Exit()
-
+    Label:
+        size_hint_x: None
+        width: 20
+    Button:
+        size_hint_x: None
+        width: 150
+        background_color: 2, 2, 2, 1
+        bold: True
+        text: "Hide"
+        color: 0.1,0.1,0.1,1
+        on_press: root.Hide()
 
 
 <InforRow>:
@@ -194,6 +205,9 @@ class ExitAndSwitchRow(BoxLayout):
     def Exit(self):
         self.parent.Exit()
 
+    def Hide(self):
+        self.parent.Hide()
+
     def add_delete_startup_file(self, active):
         if active:
             add_startup_linux()
@@ -225,8 +239,9 @@ class Main(GridLayout):
             if stat == 0:
                 self.GUIID = GUIID
             # hide itself
-                commands.getstatusoutput(
-                    'xdotool getactivewindow windowminimize')
+                # commands.getstatusoutput(
+                #     'xdotool getactivewindow windowminimize')
+                self.hide_GUI()
         self.detecter = KeyboardHandler()
         self.detecter.start_detecting()
         self.detecter.GUIID = self.GUIID
@@ -246,6 +261,13 @@ class Main(GridLayout):
             "xdotool getactivewindow windowunmap")
         # if want to show terminal use windowminimize
 
+    def hide_GUI(self):
+        try:
+            commands.getstatusoutput(
+                'xdotool windowunmap --sync %s' % self.GUIID)
+        except Exception,e:
+            logger.error(str(e))
+
     def Exit(self):
         self.detecter.stop_detecting()
         # Show the terminal
@@ -255,6 +277,9 @@ class Main(GridLayout):
         #     commands.getstatusoutput(
         #    "xdotool getactivewindow windowmap")
         sys.exit(0)
+
+    def Hide(self):
+        self.hide_GUI()
 
 
 class TickeysApp(App):
