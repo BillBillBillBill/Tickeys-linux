@@ -2,6 +2,7 @@
 # coding:utf-8
 
 from __future__ import with_statement
+from logger import logger
 
 import os
 import commands
@@ -24,7 +25,8 @@ def delete_startup_linux():
             fileName = dirname+'/'+DesktopEntryName
             if os.path.isfile(fileName):
                 os.remove(fileName)
-    except Exception:
+    except Exception, e:
+        logger.debug("Delete startup fail:" + str(e))
         return False
     return True
 
@@ -33,10 +35,13 @@ def command_exist(command='gksu'):
     command += ' --help'
     try:
         if commands.getstatusoutput(command)[0] != 32512:
+            logger.debug(command + " exist")
             return True
         else:
+            logger.debug(command + " dosen't exist")
             return False
     except Exception:
+        logger.debug(command + " dosen't exist")
         return False
 
 
@@ -107,6 +112,7 @@ Comment=Instant audio feedback when typing. For Linux.
                 with open(filename, 'w') as fp:
                     fp.write(DESKTOP_FILE)
                 os.chmod(filename, 0777)
-    except Exception:
+    except Exception, e:
+        logger.debug("Add to startup fail:" + str(e))
         return False
     return True

@@ -1,8 +1,10 @@
 #!/usr/bin/env python
 # coding: utf-8
+from logger import logger
 import sys
 import os
 import commands
+
 
 __author__ = 'Huang xiongbiao(billo@qq.com)'
 
@@ -18,7 +20,7 @@ def run_GUI():
             TickeysApp().run()
 
     except Exception, e:
-        print "Run GUI Fail, use CLI instead..Fail msg:%s" % str(e)
+        logger.info("Run GUI Fail, use CLI instead..Fail msg:%s" % str(e))
         run_CLI()
 
 
@@ -29,11 +31,12 @@ def run_CLI():
 
 
 def check_root():
-    print "Root checking..."
+    logger.info("Root checking...")
     if os.getegid() != 0:
-        print "This program must be run as root.."
+        logger.info("This program must be run as root..")
         sys.exit(0)
-    print "Root checking success.."
+    logger.info("Root checking success..")
+    logger.debug("File path:" + os.path.dirname(__file__))
 
 
 def run():

@@ -25,14 +25,16 @@ class KeyboardHandler():
         self.hotKey = [16, 30, 44, 2, 3, 4]  # QAZ123
         self.sp = SoundPlayer()
         self.GUIID = None
+        self.show_device()
 
     # list all event's name and its device
     def show_device(self):
         # os.chdir(deviceFilePath)
+        logger.debug("List all device")
         for i in os.listdir(deviceFilePath):
             namePath = deviceFilePath + i + '/device/name'
             if os.path.isfile(namePath):
-                logger.info("Name: %s Device: %s" % (i, file(namePath).read()))
+                logger.debug("Name: %s Device: %s" % (i, file(namePath).read()))
 
     def set_style(self, style):
         self.sp.set_style(style)
