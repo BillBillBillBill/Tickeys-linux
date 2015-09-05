@@ -32,7 +32,7 @@ setup(name='tickeys',
       url='https://github.com/BillBillBillBill/Tickeys-linux',
       license='MIT',
       entry_points={
-          'console_scripts': ['tickeys = tickeys:run']
+          'console_scripts': ['tickeys = tickeys:main']
       },
       install_requires=requirements,
       tests_require=requirements)

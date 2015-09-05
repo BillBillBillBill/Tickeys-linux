@@ -5,7 +5,7 @@ import sys
 import os
 import commands
 
-from __init__ import __version__
+__version__ = '0.1.7'
 import json
 import requests
 
@@ -66,7 +66,7 @@ def check_update():
         logger.error("Version check fail:" + str(e))
 
 
-def run():
+def main():
     logger.debug("Tickeys start........")
     if len(sys.argv) != 2 or sys.argv[1] not in ['-c', '-g']:
         print "Usage: python run.py -c     ---CLI mode"
@@ -81,4 +81,4 @@ def run():
         run_CLI()
 
 if __name__ == '__main__':
-    run()
+    main()
