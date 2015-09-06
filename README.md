@@ -1,4 +1,6 @@
 # Tickeys-linux
+
+[![Join the chat at https://gitter.im/BillBillBillBill/Tickeys-linux](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/BillBillBillBill/Tickeys-linux?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 ![Tickeys Icon](http://img.blog.csdn.net/20150802103616846)
 
 Instant audio feedback when typing. For Linux.
