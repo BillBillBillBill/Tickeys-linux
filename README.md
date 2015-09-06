@@ -1,9 +1,10 @@
 # Tickeys-linux
 
+Instant audio feedback when typing. For Linux.
+
+如果有任何问题或建议，可以在这提出：
 [![Join the chat at https://gitter.im/BillBillBillBill/Tickeys-linux](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/BillBillBillBill/Tickeys-linux?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 ![Tickeys Icon](http://img.blog.csdn.net/20150802103616846)
-
-Instant audio feedback when typing. For Linux.
 
 # 简介
 Tickeys是一款很强大的键盘音效软件。Tickeys 自带了四种声音效果方案，有打字机、冒泡、机械键盘、剑气等。每天都听着键盘声音是不是很烦闷，现在有了这款神器你就可以瞬间帮助自己的键盘加上逼格特效。
