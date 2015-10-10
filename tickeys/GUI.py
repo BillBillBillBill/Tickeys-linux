@@ -38,7 +38,7 @@ Builder.load_string('''
     Label:
         bold: True
         text: 'Tickeys'
-        font_size: 42
+        font_size: 50
         size_hint_y: None
 
     SpinnerRow
@@ -52,7 +52,7 @@ Builder.load_string('''
     Label:
         bold: True
         color: 1, 1, 1, 1
-        font_size: 25
+        font_size: 33
         size_hint_x: None
         width: 250
         text: 'Volume:'
@@ -67,7 +67,7 @@ Builder.load_string('''
     Label:
         bold: True
         color: 1, 1, 1, 1
-        font_size: 25
+        font_size: 33
         size_hint_x: None
         width: 250
         text: 'Pitch:'
@@ -83,7 +83,7 @@ Builder.load_string('''
     Label:
         bold: True
         color: 1, 1, 1, 1
-        font_size: 25
+        font_size: 33
         size_hint_x: None
         text: "Sound:"
         width: 250
@@ -93,9 +93,9 @@ Builder.load_string('''
 
 <EffectSpinner>:
     bold: True
-    font_size: 25
+    font_size: 30
     text: root.parent.parent.Configer.style
-    background_color: 2, 2, 2, 1
+    background_color: 3, 3, 3, 1
     color: 0.1, 0.67, 0.93, 1
     values:['bubble', 'mechanical', 'sword', 'typewriter', 'Cherry_G80_3000', 'Cherry_G80_3494',]
 
@@ -121,7 +121,8 @@ Builder.load_string('''
     Button:
         size_hint_x: None
         width: 150
-        background_color: 2, 2, 2, 1
+        font_size: 20
+        background_color: 3, 3, 3, 1
         bold: True
         text: "QUIT"
         color: 0,0,0,1
@@ -132,17 +133,18 @@ Builder.load_string('''
     Button:
         size_hint_x: None
         width: 150
-        background_color: 2, 2, 2, 1
+        font_size: 20
+        background_color: 3, 3, 3, 1
         bold: True
         text: "Hide"
-        color: 0.1,0.1,0.1,1
+        color: 0,0,0,1
         on_press: root.Hide()
 
 
 <InforRow>:
     Label:
-        color: 0.7, 0.7, 0.7, 1
-        font_size: 23
+        color: 0.8, 0.8, 0.8, 1
+        font_size: 20
         size_hint_x: None
         text: root.get_version()
         width: root.width/3.0
@@ -156,7 +158,7 @@ Builder.load_string('''
         on_ref_press:root.open_project_website()
     Label:
         color: 0.8, 0.8, 0.8, 1
-        font_size: 18
+        font_size: 20
         size_hint_x: None
         text: "Author: Bill (billo@qq.com)"
         width: root.width/3.0
@@ -169,7 +171,7 @@ def show_notify():
     try:
         import pynotify
         pynotify.init('Tickeys')
-        title = '<h2>Tickeys</h2>'
+        title = 'Tickeys'
         body = '<span style="color: #00B8CB; font-size:15px">Tickeys</span>正在运行\n随时按<span style="color: #00B8CB">QAZ123</span>唤出设置窗口'
         iconfile = os.getcwd() + '/tickeys.png'
         notify = pynotify.Notification(title, body, iconfile)
