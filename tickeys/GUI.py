@@ -31,7 +31,7 @@ Builder.load_string('''
 
     canvas:
         Color:
-            rgb: 0.42, 0.42, 0.42, 1
+            rgb: 0.368, 0.384, 0.447, 1
         Rectangle:
             pos: 0,0
             size: self.size
@@ -55,7 +55,7 @@ Builder.load_string('''
         font_size: 25
         size_hint_x: None
         width: 250
-        text: 'Vol:'
+        text: 'Volume:'
     Slider:
         min: 0.0
         max: 1.0
@@ -85,7 +85,7 @@ Builder.load_string('''
         color: 1, 1, 1, 1
         font_size: 25
         size_hint_x: None
-        text: "Sound Effect:"
+        text: "Sound:"
         width: 250
     EffectSpinner:
         on_text: root.change_style()
@@ -97,7 +97,7 @@ Builder.load_string('''
     text: root.parent.parent.Configer.style
     background_color: 2, 2, 2, 1
     color: 0.1, 0.67, 0.93, 1
-    values:['bubble', 'mechanical', 'sword', 'typewriter',]
+    values:['bubble', 'mechanical', 'sword', 'typewriter', 'Cherry_G80_3000', 'Cherry_G80_3494',]
 
 <ExitAndSwitchRow>:
     Label:
@@ -123,7 +123,7 @@ Builder.load_string('''
         width: 150
         background_color: 2, 2, 2, 1
         bold: True
-        text: "EXIT"
+        text: "QUIT"
         color: 0,0,0,1
         on_press: root.Exit()
     Label:

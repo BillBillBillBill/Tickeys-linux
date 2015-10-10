@@ -32,14 +32,14 @@ class CLI(cmd.Cmd):
     def do_setstyle(self, arg):
         style_index = raw_input(
             "Input the effect style "
-            "(0:bubble 1:mechanical 2:sword 3:typewriter) you want:")
-        style_list = ['bubble', 'mechanical', 'sword', 'typewriter']
+            "(0:bubble 1:mechanical 2:sword 3:typewriter 4:Cherry_G80_3000 5:Cherry_G80_3494) you want:")
+        style_list = ['bubble', 'mechanical', 'sword', 'typewriter', 'Cherry_G80_3000', 'Cherry_G80_3494']
 
         try:
             style_index = int(style_index)
-            assert(0 <= style_index <= 3)
+            assert(0 <= style_index <= 5)
         except Exception:
-            print "Input must between 0~3!!"
+            print "Input must between 0~5!!"
             return
 
         self.style = style_list[style_index]
