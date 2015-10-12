@@ -110,10 +110,10 @@ Open at startup是开启开机自启动功能选项，开关置为ON开启功能
 
     pip install -r requirements.txt
 
-~~使用cx_freeze进行打包：
+~~使用cx_freeze进行打包：~~
 
-    命令：`sudo python bulid.py bulid`
-~~
+~~    命令：`sudo python bulid.py bulid`~~
+
 
 使用pyinstaller打包
     命令：`pyinstaller build.spec`
