@@ -27,8 +27,9 @@ https://github.com/yingDev/Tickeys
 * 通过本目录下载Tickeys
 * 然后通过 `sudo ./Tickeys` 来打开
 * 打开CLI版本： `sudo ./Tickeys -c`
+* 或者运行`sudo sh install.sh`后在终端使用`tickeys`命令运行或在菜单中找到tickeys点击运行
 
-##编译安装：
+##编译安装(需要安装依赖)：
 
 * 以下方法需要**先执行**`sudo apt-get install python-dev python-pip python-kivy xdotool`来安装依赖，一般这样就可以满足运行条件了。
 
@@ -52,7 +53,7 @@ https://github.com/yingDev/Tickeys
 * ~~然后使用cx_freeze进行打包：`sudo python bulid.py bulid`~~
 * 然后下面跟方法2一样打开
 
-#### 其他错误解决方案：
+#### 错误解决方案：
 
 * 无法隐藏窗口：
 
@@ -112,7 +113,7 @@ Open at startup是开启开机自启动功能选项，开关置为ON开启功能
 
 ~~使用cx_freeze进行打包：~~
 
-~~    命令：`sudo python bulid.py bulid`~~
+~~命令：`sudo python bulid.py bulid`~~
 
 
 使用pyinstaller打包

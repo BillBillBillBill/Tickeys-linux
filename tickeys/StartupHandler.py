@@ -75,7 +75,7 @@ Comment=Instant audio feedback when typing. For Linux.
 [Desktop Entry]
 Type=Application
 Categories=Application;
-Exec=%s /usr/bin/python /usr/local/bin/tickeys
+Exec=%s tickeys
 Icon=%s/tickeys.png
 Terminal=true
 Hidden=false
