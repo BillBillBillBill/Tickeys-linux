@@ -4,11 +4,10 @@ from logger import logger
 import sys
 import os
 import commands
-
-__version__ = '0.1.7'
 import json
 import requests
 
+__version__ = '0.2.1'
 __author__ = 'Huang xiongbiao(billo@qq.com)'
 
 

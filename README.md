@@ -22,18 +22,19 @@ https://github.com/yingDev/Tickeys
 # 安装说明
 在不同发行版上可能会有因为文件的缺失或者环境不同导致无法使用，需要安装相关依赖。
 
-##下载编译好的程序运行
+##下载编译好的程序运行(建议)
 
-* 通过本目录下载Tickeys
-* 然后通过 `sudo ./Tickeys` 来打开
+* 通过本目录下载Tickeys的压缩包
+* 然后通过 `sudo sh install.sh` 来安装
+* 然后在终端使用`tickeys`命令运行或在菜单中找到tickeys点击运行
 * 打开CLI版本： `sudo ./Tickeys -c`
-* 或者运行`sudo sh install.sh`后在终端使用`tickeys`命令运行或在菜单中找到tickeys点击运行
+* 或者解压后直接使用`sudo ./Tickeys`运行
 
 ##编译安装(需要安装依赖)：
 
 * 以下方法需要**先执行**`sudo apt-get install python-dev python-pip python-kivy xdotool`来安装依赖，一般这样就可以满足运行条件了。
 
-#### 快速安装（最方便）：执行`sudo apt-get install python-dev python-pip python-kivy xdotool && sudo easy_install tickeys`。
+#### 快速编译安装：执行`sudo apt-get install python-dev python-pip python-kivy xdotool && sudo easy_install tickeys`。
 
 ###方法1.自动安装
 
