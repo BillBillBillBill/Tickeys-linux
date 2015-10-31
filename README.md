@@ -1,6 +1,6 @@
 # Tickeys-linux
 
-Instant audio feedback when typing. For Linux.
+Instant audio feedback when typing. For Linux.[最新版下载](https://github.com/BillBillBillBill/Tickeys-linux/releases/download/v0.2.1/tickeys-0.2.1.zip)
 
 如果有任何问题或建议，可以在这提出：
 [![Join the chat at https://gitter.im/BillBillBillBill/Tickeys-linux](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/BillBillBillBill/Tickeys-linux?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
