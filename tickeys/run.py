@@ -6,6 +6,7 @@ import os
 import commands
 import json
 import requests
+from threading import Thread
 
 __version__ = '0.2.1'
 __author__ = 'Huang xiongbiao(billo@qq.com)'
@@ -13,7 +14,7 @@ __author__ = 'Huang xiongbiao(billo@qq.com)'
 
 def run_GUI():
     check_root()
-    check_update()
+    Thread(target=check_update, args=()).start()
     try:
         stat, terminalId = commands.getstatusoutput('xdotool getactivewindow')
         from GUI import TickeysApp
@@ -29,7 +30,7 @@ def run_GUI():
 
 def run_CLI():
     check_root()
-    check_update()
+    Thread(target=check_update, args=()).start()
     from CLI import CLI
     CLI().cmdloop()
 
