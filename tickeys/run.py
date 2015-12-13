@@ -15,6 +15,7 @@ __author__ = 'Huang xiongbiao(billo@qq.com)'
 def run_GUI():
     check_root()
     Thread(target=check_update, args=()).start()
+    check_system()
     try:
         stat, terminalId = commands.getstatusoutput('xdotool getactivewindow')
         from GUI import TickeysApp
@@ -31,6 +32,7 @@ def run_GUI():
 def run_CLI():
     check_root()
     Thread(target=check_update, args=()).start()
+    check_system()
     from CLI import CLI
     CLI().cmdloop()
 
@@ -40,18 +42,18 @@ def check_root():
     if os.getegid() != 0:
         logger.info("This program must be run as root..")
         sys.exit(0)
-    logger.info("Root checking success..")
+    logger.info("Root checking success. You have the root permission")
     logger.debug("File path:" + os.path.dirname(__file__))
 
 
 def check_update():
     try:
-        logger.debug("Version checking...")
+        logger.info("Version checking...")
         r = requests.get("http://billbill.sinaapp.com/tickeys")
         returnInfor = json.loads(r.text)
         # print returnInfor
         if returnInfor["version"] <= __version__:
-            logger.debug("It is the latest version...")
+            logger.debug("Version checking success. It is the latest version...")
             return
         else:
             # show update notify
@@ -63,7 +65,23 @@ def check_update():
             notify = pynotify.Notification(title, body, iconfile)
             notify.show()
     except Exception, e:
-        logger.error("Version check fail:" + str(e))
+        logger.error("Version checking fail:" + str(e))
+
+
+def check_system():
+    systems = ['Linux', 'SunOS', 'FreeBSD', 'Unix', 'OpenBSD', 'NetBSD']
+    try:
+        logger.info("System checking...")
+        import platform
+        system_name = platform.system()
+        if system_name not in systems:
+            logger.error("System %s is not supported." % system_name)
+            sys.exit(0)
+        else:
+            logger.info("System checking success. Your system is supported")
+    except Exception, e:
+        logger.error("System checking fail:" + str(e))
+        sys.exit(0)
 
 
 def main():
