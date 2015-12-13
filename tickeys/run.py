@@ -84,19 +84,26 @@ def check_system():
         sys.exit(0)
 
 
+def print_help_msg():
+    print "Tickeys will run GUI by default"
+    print "Usage: -c     ---CLI mode"
+    print "       -g     ---GUI mode"
+
+
 def main():
     logger.debug("Tickeys start........")
-    if len(sys.argv) != 2 or sys.argv[1] not in ['-c', '-g']:
-        print "Usage: python run.py -c     ---CLI mode"
-        print "       python run.py -g     ---GUI mode"
-        if len(sys.argv) == 1:
-            run_GUI()
-        sys.exit(0)
-    if sys.argv[1] == '-g':
-        del sys.argv[1]  # otherwise kivy would regard it as option
+    if len(sys.argv) == 1:
         run_GUI()
+    elif len(sys.argv) == 2:
+        if sys.argv[1] == '-g':
+            del sys.argv[1]  # otherwise kivy would regard it as option
+            run_GUI()
+        elif sys.argv[1] == '-c':
+            run_CLI()
+        else:
+            print_help_msg()
     else:
-        run_CLI()
+        print_help_msg()
 
 if __name__ == '__main__':
     main()
