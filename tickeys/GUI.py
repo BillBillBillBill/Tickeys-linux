@@ -9,8 +9,7 @@ from kivy.lang import Builder
 from StartupHandler import add_startup_linux, check_startup_file, delete_startup_linux
 from logger import logger
 from config import Configer
-from __init__ import __version__
-
+from __init__ import __version__, debug_mode
 
 import sys
 import os
@@ -18,6 +17,10 @@ import commands
 import webbrowser
 reload(sys)
 sys.setdefaultencoding("utf-8")
+
+# set font
+from kivy.core.text import Label
+Label.register("DroidSans", "Resources/fonts/wqy-microhei.ttc")
 
 Builder.load_string('''
 <Main>:
@@ -31,7 +34,7 @@ Builder.load_string('''
 
     canvas:
         Color:
-            rgb: 0.368, 0.384, 0.447, 1
+            rgba: 0.368, 0.384, 0.447, 0.8
         Rectangle:
             pos: 0,0
             size: self.size
@@ -55,7 +58,7 @@ Builder.load_string('''
         font_size: 33
         size_hint_x: None
         width: 250
-        text: 'Volume:'
+        text: '音量：'
     Slider:
         min: 0.0
         max: 1.0
@@ -70,7 +73,7 @@ Builder.load_string('''
         font_size: 33
         size_hint_x: None
         width: 250
-        text: 'Pitch:'
+        text: '音调：'
     Slider:
         min: 0.0
         max: 3.0
@@ -85,7 +88,7 @@ Builder.load_string('''
         color: 1, 1, 1, 1
         font_size: 33
         size_hint_x: None
-        text: "Sound:"
+        text: "声音方案："
         width: 250
     EffectSpinner:
         on_text: root.change_style()
@@ -94,10 +97,10 @@ Builder.load_string('''
 <EffectSpinner>:
     bold: True
     font_size: 30
-    text: root.parent.parent.Configer.style
+    text: root.get_style_name()
     background_color: 3, 3, 3, 1
     color: 0.1, 0.67, 0.93, 1
-    values:['bubble', 'mechanical', 'sword', 'typewriter', 'Cherry_G80_3000', 'Cherry_G80_3494',]
+    values:['冒泡', '打字机', '机械键盘', '剑气', 'Cherry G80-3000', 'Cherry G80-3494', '爆裂鼓手']
 
 <ExitAndSwitchRow>:
     Label:
@@ -108,7 +111,7 @@ Builder.load_string('''
         color: 1, 1, 1, 1
         font_size: 17
         width: root.width/6.0 + 60
-        text: 'Open at startup:'
+        text: '开机时自启动：'
     Switch:
         size_hint_x: None
         width: 40
@@ -124,7 +127,7 @@ Builder.load_string('''
         font_size: 20
         background_color: 3, 3, 3, 1
         bold: True
-        text: "QUIT"
+        text: "退出"
         color: 0,0,0,1
         on_press: root.Exit()
     Label:
@@ -136,7 +139,7 @@ Builder.load_string('''
         font_size: 20
         background_color: 3, 3, 3, 1
         bold: True
-        text: "Hide"
+        text: "隐藏"
         color: 0,0,0,1
         on_press: root.Hide()
 
@@ -153,14 +156,14 @@ Builder.load_string('''
         font_size: 20
         size_hint_x: None
         markup: True
-        text: "[ref=->website]Project website[/ref]"
+        text: "[ref=->website]项目主页[/ref]"
         width: root.width/3.0
         on_ref_press:root.open_project_website()
     Label:
         color: 0.8, 0.8, 0.8, 1
         font_size: 20
         size_hint_x: None
-        text: "Author: Bill (billo@qq.com)"
+        text: "作者： Bill (billo@qq.com)"
         width: root.width/3.0
         border: 1,1,1,1
         on_touch_move:
@@ -181,12 +184,35 @@ def show_notify():
 
 
 class EffectSpinner(Spinner):
-    pass
+    def get_style_name(self):
+        style_display_name_map = {
+            'bubble': "冒泡",
+            'typewriter': "打字机",
+            'mechanical': "机械键盘",
+            'sword': "剑气",
+            'Cherry_G80_3000': "Cherry G80-3000",
+            'Cherry_G80_3494': "Cherry G80-3494",
+            'drum': "爆裂鼓手"
+        }
+        name = self.parent.parent.Configer.style
+        display_name = style_display_name_map[name]
+        return display_name
+
 
 
 class SpinnerRow(BoxLayout):
     def change_style(self):
-        self.parent.detecter.set_style(self.children[0].text)
+        style_display_name_map = {
+            '冒泡': "bubble",
+            '打字机': "typewriter",
+            '机械键盘': "mechanical",
+            '剑气': "sword",
+            'Cherry G80-3000': "Cherry_G80_3000",
+            'Cherry G80-3494': "Cherry_G80_3494",
+            '爆裂鼓手': "drum"
+        }
+        style_name = style_display_name_map[self.children[0].text]
+        self.parent.detecter.set_style(style_name)
 
 
 class AdjustVol(BoxLayout):
@@ -226,7 +252,7 @@ class InforRow(BoxLayout):
         webbrowser.open_new("http://www.yingdev.com/projects/tickeys")
 
     def get_version(self):
-        return 'Version: '+__version__
+        return 'Version： '+__version__
 
 
 class Main(GridLayout):
@@ -247,7 +273,8 @@ class Main(GridLayout):
         self.detecter = KeyboardHandler()
         self.detecter.start_detecting()
         self.detecter.GUIID = self.GUIID
-        self.hide_terminal()
+        if not debug_mode:
+            self.hide_terminal()
         show_notify()
 
     # @property
@@ -281,7 +308,8 @@ class Main(GridLayout):
         sys.exit(0)
 
     def Hide(self):
-        self.hide_GUI()
+        if not debug_mode:
+            self.hide_GUI()
 
 
 class TickeysApp(App):

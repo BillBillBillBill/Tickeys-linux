@@ -6,7 +6,7 @@
 		"non_unique_count":8,
 		"key_audio_map":{"28":8,"96":8}
 	},
-	
+
 	{
 		"name":"typewriter",
 		"display_name":"打字机",
@@ -14,7 +14,7 @@
 		"non_unique_count":5,
 		"key_audio_map":{"28":9,"96":9,"57":5 ,"14":8}
 	},
-	
+
 	{
 		"name": "mechanical",
 		"display_name":"机械键盘",
@@ -45,5 +45,13 @@
 		"files": ["G80-3494.wav", "G80-3494_fast1.wav", "G80-3494_slow1.wav", "G80-3494_enter.wav", "G80-3494_space.wav", "G80-3494_backspace.wav"],
 		"non_unique_count": 3,
 		"key_audio_map":{"28": 3, "49": 4, "51": 5}
+	},
+
+	{
+		"name": "drum",
+		"display_name": "爆裂鼓手",
+		"files": ["1.wav", "2.wav", "3.wav", "4.wav", "space.wav", "backspace.wav", "enter.wav"],
+		"non_unique_count": 4,
+		"key_audio_map":{"28": 6, "49": 4, "51": 5}
 	}
 ]

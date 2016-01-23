@@ -31,15 +31,15 @@ class CLI(cmd.Cmd):
 
     def do_setstyle(self, arg):
         style_index = raw_input(
-            "Input the effect style "
-            "(0:bubble 1:mechanical 2:sword 3:typewriter 4:Cherry_G80_3000 5:Cherry_G80_3494) you want:")
-        style_list = ['bubble', 'mechanical', 'sword', 'typewriter', 'Cherry_G80_3000', 'Cherry_G80_3494']
+            "Input the effect style number you want"
+            "(0:bubble 1:mechanical 2:sword 3:typewriter 4:Cherry_G80_3000 5:Cherry_G80_3494 6:drum):")
+        style_list = ['bubble', 'mechanical', 'sword', 'typewriter', 'Cherry_G80_3000', 'Cherry_G80_3494', 'drum']
 
         try:
             style_index = int(style_index)
-            assert(0 <= style_index <= 5)
+            assert(0 <= style_index <= 6)
         except Exception:
-            print "Input must between 0~5!!"
+            print "Input must between 0~6!!"
             return
 
         self.style = style_list[style_index]
@@ -61,11 +61,11 @@ class CLI(cmd.Cmd):
         self.volume = volume
         self.detecter.set_volume(self.volume/100.0)
 
-    def help_getvol(self):
-        print "Get the volume"
+    # def help_getvol(self):
+    #     print "Get the volume"
 
-    def do_getvol(self, arg):
-        print self.volume
+    # def do_getvol(self, arg):
+    #     print self.volume
 
     def help_setpitch(self):
         print "Set pitch, input the pitch you want"
@@ -83,16 +83,16 @@ class CLI(cmd.Cmd):
         self.pitch = pitch
         self.detecter.set_pitch(self.pitch/10.0)
 
-    def help_getpitch(self):
-        print "Get the pitch"
+    # def help_getpitch(self):
+    #     print "Get the pitch"
 
-    def do_getpitch(self, arg):
-        print self.pitch
+    # def do_getpitch(self, arg):
+    #     print self.pitch
 
-    def help_getinfor(self):
+    def help_getinfo(self):
         print "Get tickeys' sound effect, volume and pitch"
 
-    def do_getinfor(self, arg):
+    def do_getinfo(self, arg):
         print "Sound effect: %s  Volume: %s  Pitch: %s" \
             % (self.style, self.volume, self.pitch)
 

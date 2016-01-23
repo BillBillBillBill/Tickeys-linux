@@ -65,11 +65,14 @@ class KeyboardHandler():
         keyboardList = []
 
         deviceInfo = open('/proc/bus/input/devices').read().lower().split('\n\n')
-        for i in filter(lambda i: (not re.search('mouse', i) and re.search('bus=0003', i)) or re.search('keyboard', i), deviceInfo):
+        for i in filter(lambda i: not re.search('touch', i) and
+            ((not re.search('mouse', i) and re.search('bus=0003', i)) or re.search('keyboard', i))
+            , deviceInfo):
             m = re.search('event\d+', i)
             if m:
                 keyboardList.append(m.group())
         assert len(keyboardList) > 0
+        logger.debug("keyboard list: %s" % keyboardList)
         return keyboardList
 
     # return with a list of keyboard's event
