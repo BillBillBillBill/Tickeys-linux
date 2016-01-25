@@ -5,9 +5,11 @@ import re
 import threading
 from evdev import InputDevice
 from select import select
-from SoundPlayer import SoundPlayer
+from soundPlayer import SoundPlayer
 from logger import logger
 import commands
+
+from windowManager import show_GUI
 
 __author__ = 'Huang xiongbiao(billo@qq.com)'
 
@@ -24,7 +26,6 @@ class KeyboardHandler():
         self.inputRecord = []
         self.hotKey = [16, 30, 44, 2, 3, 4]  # QAZ123
         self.sp = SoundPlayer()
-        self.GUIID = None
         self.show_device()
 
     # list all event's name and its device
@@ -47,17 +48,6 @@ class KeyboardHandler():
 
     def get_player_infor(self):
         return self.sp.get_infor()
-
-    @property
-    def GUIID(self):
-        return self.GUIID
-
-    def show_GUI(self):
-        if not self.GUIID:
-            return
-        # command = "xdotool windowactivate --sync %s" % self.GUIID
-        command = "xdotool windowmap --sync %s && xdotool windowactivate --sync %s" % (self.GUIID, self.GUIID)
-        commands.getstatusoutput(command)
 
     # new way to find keyboard
     # return with a list of keyboard's event
@@ -127,7 +117,7 @@ class KeyboardHandler():
             self.inputRecord.append(keycode)
             logger.debug(self.inputRecord)
             if len(self.inputRecord) == 6:
-                self.show_GUI()
+                show_GUI()
                 self.inputRecord = []
         else:
             self.inputRecord = []

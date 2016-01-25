@@ -3,12 +3,12 @@
 from logger import logger
 import sys
 import os
-import commands
 import json
-import requests
 from threading import Thread
 
-__version__ = '0.2.1'
+from windowManager import save_terminal_window_id, check_tickeys_running_status
+
+__version__ = '0.2.2'
 __author__ = 'Huang xiongbiao(billo@qq.com)'
 
 
@@ -17,13 +17,8 @@ def run_GUI():
     Thread(target=check_update, args=()).start()
     check_system()
     try:
-        stat, terminalId = commands.getstatusoutput('xdotool getactivewindow')
         from GUI import TickeysApp
-        if stat == 0:
-            TickeysApp(terminalId).run()
-        else:
-            TickeysApp().run()
-
+        TickeysApp().run()
     except Exception, e:
         logger.info("Run GUI Fail, use CLI instead..Fail msg:%s" % str(e))
         run_CLI()
@@ -48,6 +43,7 @@ def check_root():
 
 def check_update():
     try:
+        import requests
         logger.info("Version checking...")
         r = requests.get("http://billbill.sinaapp.com/tickeys")
         returnInfor = json.loads(r.text)
@@ -92,6 +88,9 @@ def print_help_msg():
 
 def main():
     logger.debug("Tickeys start........")
+    is_running = check_tickeys_running_status()
+    if is_running:
+        return
     if len(sys.argv) == 1:
         run_GUI()
     elif len(sys.argv) == 2:

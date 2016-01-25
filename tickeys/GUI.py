@@ -4,9 +4,9 @@ from kivy.app import App
 from kivy.uix.spinner import Spinner
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.gridlayout import GridLayout
-from KeyboardHandler import KeyboardHandler
+from keyboardHandler import KeyboardHandler
 from kivy.lang import Builder
-from StartupHandler import add_startup_linux, check_startup_file, delete_startup_linux
+from startupHandler import add_startup_linux, check_startup_file, delete_startup_linux
 from logger import logger
 from config import Configer
 from __init__ import __version__, debug_mode
@@ -15,6 +15,9 @@ import sys
 import os
 import commands
 import webbrowser
+
+from windowManager import hide_terminal, hide_GUI, save_GUI_window_id
+
 reload(sys)
 sys.setdefaultencoding("utf-8")
 
@@ -259,43 +262,13 @@ class Main(GridLayout):
     def __init__(self, *args, **kwargs):
         self.Configer = Configer()
         super(Main, self).__init__(**kwargs)
-        self.terminalId = args[0] if args else None
-        self.GUIID = None
-        # tool works preget
-        if self.terminalId:
-            stat, GUIID = commands.getstatusoutput('xdotool getactivewindow')
-            if stat == 0:
-                self.GUIID = GUIID
-            # hide itself
-                # commands.getstatusoutput(
-                #     'xdotool getactivewindow windowminimize')
-                self.hide_GUI()
+        save_GUI_window_id()
+        self.Hide()
         self.detecter = KeyboardHandler()
         self.detecter.start_detecting()
-        self.detecter.GUIID = self.GUIID
         if not debug_mode:
-            self.hide_terminal()
+            hide_terminal()
         show_notify()
-
-    # @property
-    # def detecter(self):
-    #     return self.detecter
-
-    def hide_terminal(self):
-        if not self.terminalId:
-            return
-        commands.getstatusoutput(
-            "xdotool windowactivate --sync %s" % self.terminalId)
-        commands.getstatusoutput(
-            "xdotool getactivewindow windowunmap")
-        # if want to show terminal use windowminimize
-
-    def hide_GUI(self):
-        try:
-            commands.getstatusoutput(
-                'xdotool windowunmap --sync %s' % self.GUIID)
-        except Exception,e:
-            logger.error(str(e))
 
     def Exit(self):
         self.detecter.stop_detecting()
@@ -309,17 +282,16 @@ class Main(GridLayout):
 
     def Hide(self):
         if not debug_mode:
-            self.hide_GUI()
+            hide_GUI()
 
 
 class TickeysApp(App):
     def __init__(self, *args, **kwargs):
         super(TickeysApp, self).__init__(**kwargs)
-        self.terminalId = args[0] if args else None
 
     def build(self):
         self.icon = 'tickeys.png'
-        root = Main(self.terminalId)
+        root = Main()
         return root
 
     def on_stop(self):

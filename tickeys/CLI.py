@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 import cmd
-from KeyboardHandler import KeyboardHandler
+from keyboardHandler import KeyboardHandler
 from logger import logger
 from __init__ import __version__
 import sys
