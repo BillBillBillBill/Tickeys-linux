@@ -4,9 +4,8 @@ from logger import logger
 import sys
 import os
 import json
-from threading import Thread
 
-from windowManager import save_terminal_window_id, check_tickeys_running_status
+from windowManager import check_tickeys_running_status
 
 __version__ = '0.2.2'
 __author__ = 'Huang xiongbiao(billo@qq.com)'
@@ -14,7 +13,6 @@ __author__ = 'Huang xiongbiao(billo@qq.com)'
 
 def run_GUI():
     check_root()
-    Thread(target=check_update, args=()).start()
     check_system()
     try:
         from GUI import TickeysApp
@@ -39,30 +37,6 @@ def check_root():
         sys.exit(0)
     logger.info("Root checking success. You have the root permission")
     logger.debug("File path:" + os.path.dirname(__file__))
-
-
-def check_update():
-    try:
-        import requests
-        logger.info("Version checking...")
-        r = requests.get("http://billbill.sinaapp.com/tickeys")
-        returnInfor = json.loads(r.text)
-        # print returnInfor
-        if returnInfor["version"] <= __version__:
-            logger.debug("Version checking success. It is the latest version...")
-            return
-        else:
-            # show update notify
-            import pynotify
-            pynotify.init('Tickeys')
-            title = '<h2>Tickeys</h2>'
-            body = '<span style="color: #00B8CB; font-size:15px">Tickeys</span>有可用的<span style="color: #FF4500">更新：</span>\n 版本：%s \n 内容：%s' % (returnInfor["version"], returnInfor["update"])
-            iconfile = os.getcwd() + '/tickeys.png'
-            notify = pynotify.Notification(title, body, iconfile)
-            notify.show()
-    except Exception, e:
-        logger.error("Version checking fail:" + str(e))
-
 
 def check_system():
     systems = ['Linux', 'SunOS', 'FreeBSD', 'Unix', 'OpenBSD', 'NetBSD']

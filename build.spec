@@ -5,7 +5,7 @@ block_cipher = None
 a = Analysis(['./tickeys/run.py'],
              pathex=['./tickeys'],
              binaries=None, # 动态库
-             datas=[], # 数据文件，可以是任意文件类型，例如ini配置文件、字体文件、图片等
+             datas=[("./tickeys/tickeys.png",".")], # 数据文件，可以是任意文件类型，例如ini配置文件、字体文件、图片等
              hiddenimports=[],
              hookspath=None,
              runtime_hooks=None,
@@ -26,4 +26,5 @@ exe = EXE(pyz,
           debug=False,
           strip=None,
           upx=True,
-          console=True,)
+          console=True
+          )

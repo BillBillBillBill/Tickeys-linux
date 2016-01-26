@@ -15,15 +15,20 @@ import sys
 import os
 import commands
 import webbrowser
+from threading import Thread
 
-from windowManager import hide_terminal, hide_GUI, save_GUI_window_id
+from windowManager import hide_GUI, save_GUI_window_id
 
 reload(sys)
 sys.setdefaultencoding("utf-8")
 
 # set font
 from kivy.core.text import Label
-Label.register("DroidSans", "Resources/fonts/wqy-microhei.ttc")
+try:
+    os.chdir(os.path.dirname(__file__))
+except Exception:
+    pass
+Label.register("DroidSans", "./Resources/fonts/DroidSansFallbackFull.ttf")
 
 Builder.load_string('''
 <Main>:
@@ -175,15 +180,37 @@ Builder.load_string('''
 
 def show_notify():
     try:
-        import pynotify
-        pynotify.init('Tickeys')
+        import notify2
+        notify2.init('Tickeys')
         title = 'Tickeys'
         body = '<span style="color: #00B8CB; font-size:15px">Tickeys</span>正在运行\n随时按<span style="color: #00B8CB">QAZ123</span>唤出设置窗口'
         iconfile = os.getcwd() + '/tickeys.png'
-        notify = pynotify.Notification(title, body, iconfile)
+        notify = notify2.Notification(title, body, iconfile)
         notify.show()
     except Exception:
         return
+
+def check_update():
+    try:
+        import requests
+        logger.info("Version checking...")
+        r = requests.get("http://billbill.sinaapp.com/tickeys")
+        returnInfor = json.loads(r.text)
+        # print returnInfor
+        if returnInfor["version"] <= __version__:
+            logger.debug("Version checking success. It is the latest version...")
+            return
+        else:
+            # show update notify
+            import notify2
+            notify2.init('Tickeys')
+            title = '<h2>Tickeys</h2>'
+            body = '<span style="color: #00B8CB; font-size:15px">Tickeys</span>有可用的<span style="color: #FF4500">更新：</span>\n 版本：%s \n 内容：%s' % (returnInfor["version"], returnInfor["update"])
+            iconfile = os.getcwd() + '/tickeys.png'
+            notify = notify2.Notification(title, body, iconfile)
+            notify.show()
+    except Exception, e:
+        logger.error("Version checking fail:" + str(e))
 
 
 class EffectSpinner(Spinner):
@@ -266,9 +293,8 @@ class Main(GridLayout):
         self.Hide()
         self.detecter = KeyboardHandler()
         self.detecter.start_detecting()
-        if not debug_mode:
-            hide_terminal()
         show_notify()
+        Thread(target=check_update, args=()).start()
 
     def Exit(self):
         self.detecter.stop_detecting()

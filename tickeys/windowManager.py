@@ -76,5 +76,4 @@ def check_tickeys_running_status():
         return False
     else:
         print "Tickeys is already running, show it"
-        hide_terminal()
         return True
