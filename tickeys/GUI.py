@@ -193,6 +193,7 @@ def show_notify():
 def check_update():
     try:
         import requests
+        import json
         logger.info("Version checking...")
         r = requests.get("http://billbill.sinaapp.com/tickeys")
         returnInfor = json.loads(r.text)
@@ -293,7 +294,7 @@ class Main(GridLayout):
         self.Hide()
         self.detecter = KeyboardHandler()
         self.detecter.start_detecting()
-        show_notify()
+        Thread(target=show_notify, args=()).start()
         Thread(target=check_update, args=()).start()
 
     def Exit(self):

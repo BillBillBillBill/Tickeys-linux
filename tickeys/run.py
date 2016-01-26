@@ -3,7 +3,6 @@
 from logger import logger
 import sys
 import os
-import json
 
 from windowManager import check_tickeys_running_status
 
