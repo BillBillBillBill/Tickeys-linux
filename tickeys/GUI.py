@@ -13,8 +13,7 @@ from __init__ import __version__, debug_mode
 
 import sys
 import os
-import commands
-import webbrowser
+
 from threading import Thread
 
 from windowManager import hide_GUI, save_GUI_window_id
@@ -164,7 +163,7 @@ Builder.load_string('''
         font_size: 20
         size_hint_x: None
         markup: True
-        text: "[ref=->website]项目主页[/ref]"
+        text: "[ref=项目主页]项目主页[/ref]"
         width: root.width/3.0
         on_ref_press:root.open_project_website()
     Label:
@@ -190,27 +189,28 @@ def show_notify():
     except Exception:
         return
 
+
 def check_update():
     try:
-        import requests
+        import urllib
         import json
         logger.info("Version checking...")
-        r = requests.get("http://billbill.sinaapp.com/tickeys")
-        returnInfor = json.loads(r.text)
-        # print returnInfor
-        if returnInfor["version"] <= __version__:
+        r = urllib.urlopen('http://billbill.sinaapp.com/tickeys')
+        return_msg = json.loads(r.read())
+        if return_msg["version"] <= __version__:
             logger.debug("Version checking success. It is the latest version...")
             return
         else:
-            # show update notify
-            import notify2
-            notify2.init('Tickeys')
-            title = '<h2>Tickeys</h2>'
-            body = '<span style="color: #00B8CB; font-size:15px">Tickeys</span>有可用的<span style="color: #FF4500">更新：</span>\n 版本：%s \n 内容：%s' % (returnInfor["version"], returnInfor["update"])
-            iconfile = os.getcwd() + '/tickeys.png'
-            notify = notify2.Notification(title, body, iconfile)
-            notify.show()
+                # show update notify
+                import notify2
+                notify2.init('Tickeys')
+                title = '<h2>Tickeys</h2>'
+                body = '<span style="color: #00B8CB; font-size:15px">Tickeys</span>有可用的<span style="color: #FF4500">更新：</span>\n 版本：%s \n 内容：%s' % (return_msg["version"], return_msg["update"])
+                iconfile = os.getcwd() + '/tickeys.png'
+                notify = notify2.Notification(title, body, iconfile)
+                notify.show()
     except Exception, e:
+        logger.exception(e)
         logger.error("Version checking fail:" + str(e))
 
 
@@ -262,7 +262,7 @@ class SwitcherRow(BoxLayout):
 
 class ExitAndSwitchRow(BoxLayout):
     def Exit(self):
-        self.parent.Exit()
+        os._exit(0)
 
     def Hide(self):
         self.parent.Hide()
@@ -279,11 +279,12 @@ class ExitAndSwitchRow(BoxLayout):
 
 
 class InforRow(BoxLayout):
-    def open_project_website(self):
-        webbrowser.open_new("http://www.yingdev.com/projects/tickeys")
+    def open_project_website(self, *args):
+        from webbrowser import open_new
+        open_new("https://github.com/BillBillBillBill/Tickeys-linux")
 
     def get_version(self):
-        return 'Version： '+__version__
+        return 'Version： ' + __version__
 
 
 class Main(GridLayout):
@@ -292,20 +293,12 @@ class Main(GridLayout):
         super(Main, self).__init__(**kwargs)
         save_GUI_window_id()
         self.Hide()
+        # set up keyboard detecter
         self.detecter = KeyboardHandler()
         self.detecter.start_detecting()
-        Thread(target=show_notify, args=()).start()
-        Thread(target=check_update, args=()).start()
-
-    def Exit(self):
-        self.detecter.stop_detecting()
-        # Show the terminal
-        # if self.terminalId:
-        #     commands.getstatusoutput(
-        #    "xdotool windowactivate --sync %s" % self.terminalId)
-        #     commands.getstatusoutput(
-        #    "xdotool getactivewindow windowmap")
-        sys.exit(0)
+        # show notify message
+        Thread(target=show_notify).start()
+        Thread(target=check_update).start()
 
     def Hide(self):
         if not debug_mode:
@@ -322,7 +315,7 @@ class TickeysApp(App):
         return root
 
     def on_stop(self):
-        self.root.Exit()
+        os._exit(0)
 
 
 if __name__ == '__main__':

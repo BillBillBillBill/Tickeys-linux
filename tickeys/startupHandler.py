@@ -50,7 +50,11 @@ def add_startup_linux():
     dirname = os.path.dirname(filename)
     command = 'gksu' if command_exist() else 'sudo'
 
-    if dirname.find('library.zip') != -1:
+    if os.path.exists("/usr/share/applications/Tickeys.desktop"):
+        # install by deb
+        with open("/usr/share/applications/Tickeys.desktop") as f:
+            DESKTOP_FILE = f.read()
+    elif dirname.find('library.zip') != -1:
         realPath = dirname.strip('library.zip')
         # In a package
         DESKTOP_FILE = '''\
@@ -102,6 +106,7 @@ X-GNOME-Autostart-enabled=true
 Name=Tickeys
 Comment=Instant audio feedback when typing. For Linux.
 ''' % (dirname, command, dirname)
+
     try:
         for dirname in map(os.path.expanduser, StartupPath):
             if not os.path.exists(dirname):

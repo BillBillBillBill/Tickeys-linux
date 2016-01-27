@@ -13,18 +13,25 @@ class Configer():
         self.cf = ConfigParser.ConfigParser()
         self.read_config()
 
+    def init_config(self):
+        self.style = 'mechanical'
+        self.volume = 1.0
+        self.pitch = 1.0
+        self.save_config()
+
     def read_config(self):
         try:
-            assert self.cf.read('tickeys.conf')
-            self.volume = self.cf.getfloat('options', 'volume')
-            self.pitch = self.cf.getfloat('options', 'pitch')
-            self.style = self.cf.get('options', 'style')
+            if not os.path.exists("/usr/share/Tickeys/config") or not os.path.exists("/usr/share/Tickeys/config/tickeys.conf"):
+                if not os.path.exists("/usr/share/Tickeys/config"):
+                    os.mkdir("/usr/share/Tickeys/config")
+                self.init_config()
+            else:
+                self.cf.read('/usr/share/Tickeys/config/tickeys.conf')
+                self.volume = self.cf.getfloat('options', 'volume')
+                self.pitch = self.cf.getfloat('options', 'pitch')
+                self.style = self.cf.get('options', 'style')
         except Exception, e:
             logger.debug(e)
-            self.style = 'mechanical'
-            self.volume = 1.0
-            self.pitch = 1.0
-            self.save_config()
 
     def save_config(self):
         if not self.cf.sections():
@@ -33,7 +40,7 @@ class Configer():
         self.cf.set('options', 'pitch', self.pitch)
         self.cf.set('options', 'style', self.style)
 
-        with open('tickeys.conf', 'w') as f:
+        with open('/usr/share/Tickeys/config/tickeys.conf', 'w') as f:
             self.cf.write(f)
 
     @property

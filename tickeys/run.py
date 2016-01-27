@@ -6,7 +6,6 @@ import os
 
 from windowManager import check_tickeys_running_status
 
-__version__ = '0.2.2'
 __author__ = 'Huang xiongbiao(billo@qq.com)'
 
 
@@ -17,16 +16,9 @@ def run_GUI():
         from GUI import TickeysApp
         TickeysApp().run()
     except Exception, e:
-        logger.info("Run GUI Fail, use CLI instead..Fail msg:%s" % str(e))
-        run_CLI()
-
-
-def run_CLI():
-    check_root()
-    Thread(target=check_update, args=()).start()
-    check_system()
-    from CLI import CLI
-    CLI().cmdloop()
+        logger.info("Run GUI Fail, reason:")
+        logger.exception(e)
+        os._exit(0)
 
 
 def check_root():
@@ -49,14 +41,9 @@ def check_system():
         else:
             logger.info("System checking success. Your system is supported")
     except Exception, e:
-        logger.error("System checking fail:" + str(e))
+        logger.error("System checking fail:")
+        logger.exception(e)
         sys.exit(0)
-
-
-def print_help_msg():
-    print "Tickeys will run GUI by default"
-    print "Usage: -c     ---CLI mode"
-    print "       -g     ---GUI mode"
 
 
 def main():
@@ -64,18 +51,7 @@ def main():
     is_running = check_tickeys_running_status()
     if is_running:
         return
-    if len(sys.argv) == 1:
-        run_GUI()
-    elif len(sys.argv) == 2:
-        if sys.argv[1] == '-g':
-            del sys.argv[1]  # otherwise kivy would regard it as option
-            run_GUI()
-        elif sys.argv[1] == '-c':
-            run_CLI()
-        else:
-            print_help_msg()
-    else:
-        print_help_msg()
+    run_GUI()
 
 if __name__ == '__main__':
     main()

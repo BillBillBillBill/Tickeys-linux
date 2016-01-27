@@ -2,7 +2,6 @@
 # coding: utf-8
 import cmd
 from keyboardHandler import KeyboardHandler
-from logger import logger
 from __init__ import __version__
 import sys
 reload(sys)

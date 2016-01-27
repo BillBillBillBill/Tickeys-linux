@@ -4,9 +4,15 @@ block_cipher = None
 
 a = Analysis(['./tickeys/run.py'],
              pathex=['./tickeys'],
-             binaries=None, # 动态库
+             binaries=[
+                 ('lib/libSDL2_ttf-2.0.so.0',"."),
+                 ('lib/libSDL2_image-2.0.so.0',"."),
+                 ('lib/libSDL2_mixer-2.0.so.0',"."),
+                 ('lib/libSDL2-2.0.so.0',"."),
+                 ('lib/libsndio.so.6.0',"."),
+             ], # 动态库
              datas=[("./tickeys/tickeys.png",".")], # 数据文件，可以是任意文件类型，例如ini配置文件、字体文件、图片等
-             hiddenimports=[],
+             hiddenimports=['six','packaging', 'packaging.version', 'packaging.specifiers'],
              hookspath=None,
              runtime_hooks=None,
              excludes=None,

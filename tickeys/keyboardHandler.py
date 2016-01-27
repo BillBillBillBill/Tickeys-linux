@@ -7,7 +7,6 @@ from evdev import InputDevice
 from select import select
 from soundPlayer import SoundPlayer
 from logger import logger
-import commands
 
 from windowManager import show_GUI
 
