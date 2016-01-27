@@ -24,11 +24,8 @@ https://github.com/yingDev/Tickeys
 
 ##下载编译好的程序运行(建议)
 
-* 通过本目录下载Tickeys的压缩包
-* 然后通过 `sudo sh install.sh` 来安装
-* 然后在终端使用`tickeys`命令运行或在菜单中找到tickeys点击运行
-* 打开CLI版本： `sudo ./Tickeys -c`
-* 或者解压后直接使用`sudo ./Tickeys`运行
+* 下载deb安装包：[tickeys_0.2.3.deb](https://github.com/BillBillBillBill/Tickeys-linux/releases/download/v0.2.3/tickeys_0.2.3.deb)
+* 安装，在启动器中找到Tickeys打开。
 
 ##编译安装(需要安装依赖)：
 
