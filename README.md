@@ -30,7 +30,7 @@ https://github.com/yingDev/Tickeys
 ##编译安装(需要安装依赖)：
 
 * 以下方法需要**先执行**`sudo apt-get install python-dev python-pip python-kivy xdotool gksu`来安装依赖，一般这样就可以满足运行条件了。
-* 安装库(注意版本)： sudo pip install cython==0.20.2 notify2 pyinstaller==3.0 kivy==1.9.0
+* 安装库(注意版本)： sudo pip install cython==0.20.2 notify2 pyinstaller==3.0 kivy==1.9.0 evdev
 
 #### 快速编译安装：执行`sudo apt-get install python-dev python-pip python-kivy xdotool && sudo easy_install tickeys`。
 

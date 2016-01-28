@@ -1,0 +1,11 @@
+#!/bin/sh
+rm -f /usr/bin/tickeys
+rm -f /usr/share/icons/Tickeys/tickeys.png
+rm -f /usr/share/applications/Tickeys.desktop
+rm -f /etc/xdg/autostart/Tickeys.desktop
+rm -f ~/.config/autostart/Tickeys.desktop
+rm -f ~/.config/openbox/autostart/Tickeys.desktop
+set -e
+# Automatically added by dh_installmenu
+if [ -x "`which update-menus 2>/dev/null`" ]; then update-menus ; fi
+# End automatically added section

@@ -1,6 +1,5 @@
-cython
-Pygments
+cython==0.20.2
 evdev
-Kivy
-cx_freeze
+kivy==1.9.0
+pyinstaller==3.0
 notify2

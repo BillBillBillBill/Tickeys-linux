@@ -1,3 +1,7 @@
+2016-01-29 version 0.2.4
+1.修复一个配置的bug
+2.提供32位的deb包
+
 2016-01-27 version 0.2.3
 1.打包为deb包
 2.软件字体更换为DroidSansFallbackFull

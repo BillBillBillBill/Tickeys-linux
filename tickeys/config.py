@@ -21,7 +21,14 @@ class Configer():
 
     def read_config(self):
         try:
-            if not os.path.exists("/usr/share/Tickeys/config") or not os.path.exists("/usr/share/Tickeys/config/tickeys.conf"):
+            config_path = [
+                "/usr/share/Tickeys",
+                "/usr/share/Tickeys/config",
+                "/usr/share/Tickeys/config/tickeys.conf"
+            ]
+            if not all([os.path.exists(cp) for cp in config_path]):
+                if not os.path.exists("/usr/share/Tickeys"):
+                    os.mkdir("/usr/share/Tickeys")
                 if not os.path.exists("/usr/share/Tickeys/config"):
                     os.mkdir("/usr/share/Tickeys/config")
                 self.init_config()
