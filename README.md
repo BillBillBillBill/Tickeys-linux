@@ -1,8 +1,14 @@
 # Tickeys-linux
 
-Instant audio feedback when typing. For Linux.[最新版下载](https://github.com/BillBillBillBill/Tickeys-linux/releases/download/v0.2.3/tickeys_0.2.3.deb)
+Instant audio feedback when typing. For Linux.
+
+
+[下载32位tickeys_0.2.4_i386.deb：http://pan.baidu.com/s/1sk3NND7](http://pan.baidu.com/s/1sk3NND7)
+
+[下载64位tickeys_0.2.4_amd64.deb：http://pan.baidu.com/s/1kUanMN9](http://pan.baidu.com/s/1kUanMN9)
 
 如果有任何问题或者建议，请在issue中提出：
+
 [![Join the chat at https://gitter.im/BillBillBillBill/Tickeys-linux](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/BillBillBillBill/Tickeys-linux?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 ![Tickeys Icon](http://img.blog.csdn.net/20150802103616846)
 
@@ -24,8 +30,13 @@ https://github.com/yingDev/Tickeys
 
 ##下载打包好的安装包安装(建议)
 
-* 下载deb安装包：[tickeys_0.2.3.deb](https://github.com/BillBillBillBill/Tickeys-linux/releases/download/v0.2.3/tickeys_0.2.3.deb)
-* 安装，在启动器中找到Tickeys打开。
+* 下载deb安装包：
+
+[下载32位tickeys_0.2.4_i386.deb：http://pan.baidu.com/s/1sk3NND7](http://pan.baidu.com/s/1sk3NND7)
+
+[下载64位tickeys_0.2.4_amd64.deb：http://pan.baidu.com/s/1kUanMN9](http://pan.baidu.com/s/1kUanMN9)
+
+* 安装后，在启动器中找到Tickeys打开。
 
 ##编译安装(需要安装依赖)：
 
