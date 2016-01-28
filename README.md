@@ -1,6 +1,6 @@
 # Tickeys-linux
 
-Instant audio feedback when typing. For Linux.[最新版下载](https://github.com/BillBillBillBill/Tickeys-linux/releases/download/v0.2.1/tickeys-0.2.1.zip)
+Instant audio feedback when typing. For Linux.[最新版下载](https://github.com/BillBillBillBill/Tickeys-linux/releases/download/v0.2.3/tickeys_0.2.3.deb)
 
 如果有任何问题或者建议，请在issue中提出：
 [![Join the chat at https://gitter.im/BillBillBillBill/Tickeys-linux](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/BillBillBillBill/Tickeys-linux?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
@@ -14,7 +14,7 @@ Tickeys是一款很强大的键盘音效软件。Tickeys 自带了四种声音�
 # 项目网站
 http://www.yingdev.com/projects/tickeys
 
-PyPI: https://pypi.python.org/pypi/tickeys 
+PyPI: https://pypi.python.org/pypi/tickeys
 
 # Tickeys的Mac版本
 https://github.com/yingDev/Tickeys
@@ -22,14 +22,15 @@ https://github.com/yingDev/Tickeys
 # 安装说明
 在不同发行版上可能会有因为文件的缺失或者环境不同导致无法使用，需要安装相关依赖。
 
-##下载编译好的程序运行(建议)
+##下载打包好的安装包安装(建议)
 
 * 下载deb安装包：[tickeys_0.2.3.deb](https://github.com/BillBillBillBill/Tickeys-linux/releases/download/v0.2.3/tickeys_0.2.3.deb)
 * 安装，在启动器中找到Tickeys打开。
 
 ##编译安装(需要安装依赖)：
 
-* 以下方法需要**先执行**`sudo apt-get install python-dev python-pip python-kivy xdotool`来安装依赖，一般这样就可以满足运行条件了。
+* 以下方法需要**先执行**`sudo apt-get install python-dev python-pip python-kivy xdotool gksu`来安装依赖，一般这样就可以满足运行条件了。
+* 安装库(注意版本)： sudo pip install cython==0.20.2 notify2 pyinstaller==3.0 kivy==1.9.0
 
 #### 快速编译安装：执行`sudo apt-get install python-dev python-pip python-kivy xdotool && sudo easy_install tickeys`。
 
@@ -43,13 +44,6 @@ https://github.com/yingDev/Tickeys
 * 下载 https://github.com/BillBillBillBill/Tickeys-linux/archive/master.zip ，解压后运行 `sudo python setup.py install`
 * 然后通过 `sudo tickeys` 来打开 (sudo tickeys -c 打开CLI版本)
 
-###方法3.在本地打包成可执行程序
-
-* 先下载 https://github.com/BillBillBillBill/Tickeys-linux/archive/master.zip
-* 安装打包所需的pyinstaller
-* 然后使用pyinstaller进行打包：`pyinstaller build.spec`
-* ~~然后使用cx_freeze进行打包：`sudo python bulid.py bulid`~~
-* 然后下面跟方法2一样打开
 
 #### 错误解决方案：
 
@@ -61,11 +55,11 @@ https://github.com/yingDev/Tickeys
 
 解决方法：使用`sudo apt-get install python-pip` 安装
 
-* Python.h：没有那个文件或目录 
+* Python.h：没有那个文件或目录
 
 解决方法：使用`sudo apt-get install python-dev`安装
 
-* ImportError: No module named Cython.Distutils  
+* ImportError: No module named Cython.Distutils
 
 解决方法：使用`sudo easy_install cython`安装
 
@@ -80,7 +74,7 @@ https://github.com/yingDev/Tickeys
 
 Debian and Ubuntu 用户则可以尝试安装:
 
-    * sudo apt-get install xdotool 
+    * sudo apt-get install xdotool
     * sudo apt-get install libsdl1.2-dev
     * sudo apt-get install libsdl-mixer1.2
     * sudo apt-get install libsdl-ttf2.0
@@ -129,43 +123,63 @@ xdotool的使用：
 
 * 激活窗口：
     xdotool windowactivate --sync $WID
+    xdotool windowmap --sync $WID && xdotool windowactivate --sync $WID
 
 * 隐藏窗口实现：
-    xdotool getactivewindow windowminimize
+    xdotool getactivewindow windowunmap
+    ～～xdotool getactivewindow windowminimize～～
     或
-    xdotool getactivewindow windowmove 999 0
+    ～～xdotool getactivewindow windowmove 999 0～～
 
 
 # 项目结构
 Tickeys-linux
 ```
 ├── AUTHOURS
+├── build.sh
+├── build.spec               pyinstaller打包用
+├── Changelog                版本变动说明
+├── deb.sh
+├── dist
+│   ├── make_deb.sh          打包成deb包的脚本
+├── lib                      运行所用的一些库
 ├── LICENSE
 ├── MANIFEST.in
 ├── README.md
-├── setup.py
-└── tickeys
-    ├── build.py
-    ├── CLI.py
-    ├── GUI.py
-    ├── config.py
-    ├── __init__.py
-    ├── KeyboardHandler.py
-    ├── logger.py
-    ├── requirements.txt
-    ├── Resources
-    │   └── data
-    │       ├── bubble
-    │       ├── mechanical
-    │       ├── sword
-    │       ├── typewriter
-    │       └── schemes.json
-    ├── run.py
-    ├── SoundPlayer.py
-    ├── StartupHandler.py
-    ├── tickeys
-    ├── tickeys.png
-    └── tickeysui.kv
+├── screenshot               Tickeys截图文件
+├── setup.py                 分发用
+├── tickeys
+│   ├── build.py            cx_freeze打包，已不用
+│   ├── CLI.py              启动CLI的模块
+│   ├── config.py            处理配置保存和读取的模块
+│   ├── GUI.py              启动GUI的模块
+│   ├── __init__.py
+│   ├── keyboardHandler.py  处理键盘输入的函数
+│   ├── logger.py          日志记录函数，调试时使用
+│   ├── requirements.txt    开发模块依赖包
+│   ├── Resources           程序资源，包括音效，字体等
+│   │   ├── data
+│   │   │   ├── bubble
+│   │   │   ├── Cherry_G80_3000
+│   │   │   ├── Cherry_G80_3494
+│   │   │   ├── drum
+│   │   │   ├── mechanical
+│   │   │   ├── sword
+│   │   │   └── typewriter
+│   │   │   ├── schemes.json
+│   │   └── fonts
+│   │       └── DroidSansFallbackFull.ttf
+│   ├── run.py            程序入口
+│   ├── run_with_CLI.py   程序入口，带CLI版（失败时运行CLI）
+│   ├── soundPlayer.py       播放声效的模块
+│   ├── startupHandler.py    控制开机自启动的模块
+│   ├── tickeys           启动tickeys的脚本，打包时放进打包后的文件夹使用
+│   ├── tickeys.png
+│   ├── tickeys_tray.py   托盘，由于打包大小问题尚未放入
+│   ├── tickeysui.kv      kv的ui文件，现在已直接写入GUI.py中
+│   └── windowManager.py  提供窗口控制的方法
+├── tickeys_0.2.3.deb
+└── tickeys.egg-info
 ```
 
 # 文件说明
@@ -175,25 +189,25 @@ Tickeys-linux
 
 * readme.txt 放进打包后程序文件夹的readme
 
-* requirements.txt 开发模块依赖包
+* requirements.txt
 
-* tickeys 启动tickeys的脚本，打包时放进打包后的文件夹使用
+* tickeys
 
-* CLI.py 启动CLI的模块
+* CLI.py
 
-* GUI.py 启动GUI的模块
+* GUI.py
 
-* config.py 处理配置保存和读取的模块
+* config.py
 
-* tickeysui.kv kv的ui文件，当在GUI中不使用load_string来创建时把此文件更名为Tickeys.kv使用
+* tickeysui.kv
 
-* KeyboardHandler.py 处理键盘输入的函数
+* KeyboardHandler.py
 
-* logger.py 日志记录函数，调试时使用
+* logger.py
 
-* SoundPlayer.py 播放声效的模块
+* SoundPlayer.py
 
-* StartupHandler.py 控制开机自启动的模块
+* StartupHandler.py
 
 
 # 问题
