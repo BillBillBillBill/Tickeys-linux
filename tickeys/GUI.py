@@ -148,8 +148,7 @@ Builder.load_string('''
         bold: True
         text: "隐藏"
         color: 0,0,0,1
-        on_press: root.Hide()
-
+        on_release: root.Hide()
 
 <InforRow>:
     Label:
@@ -177,38 +176,39 @@ Builder.load_string('''
 '''.encode('utf-8'))
 
 
-def show_notify():
+def show_notify(notify_content=""):
     try:
         import notify2
         notify2.init('Tickeys')
         title = 'Tickeys'
-        body = '<span style="color: #00B8CB; font-size:15px">Tickeys</span>正在运行\n随时按<span style="color: #00B8CB">QAZ123</span>唤出设置窗口'
-        iconfile = os.getcwd() + '/tickeys.png'
-        notify = notify2.Notification(title, body, iconfile)
+        icon_file_path = os.getcwd() + '/tickeys.png'
+        notify = notify2.Notification(title, notify_content, icon_file_path)
         notify.show()
-    except Exception:
-        return
+    except Exception, e:
+        logger.exception(e)
+        logger.error("show notify fail")
 
 
-def check_update():
+def show_startup_notify():
+    notify_content = '<span style="color: #00B8CB; font-size:15px">Tickeys</span>正在运行\n随时按<span style="color: #00B8CB">QAZ123</span>唤出设置窗口'
+    show_notify(notify_content)
+
+
+def check_update_and_notify():
     try:
         import urllib
         import json
         logger.info("Version checking...")
         r = urllib.urlopen('http://billbill.sinaapp.com/tickeys')
         return_msg = json.loads(r.read())
+        print return_msg
         if return_msg["version"] <= __version__:
             logger.debug("Version checking success. It is the latest version...")
-            return
         else:
-                # show update notify
-                import notify2
-                notify2.init('Tickeys')
-                title = '<h2>Tickeys</h2>'
-                body = '<span style="color: #00B8CB; font-size:15px">Tickeys</span>有可用的<span style="color: #FF4500">更新：</span>\n 版本：%s \n 内容：%s' % (return_msg["version"], return_msg["update"])
-                iconfile = os.getcwd() + '/tickeys.png'
-                notify = notify2.Notification(title, body, iconfile)
-                notify.show()
+            # show update notify
+            notify_content = '<span style="color: #00B8CB; font-size:15px">Tickeys</span>有可用的<span style="color: #FF4500">更新：</span>\n 版本：%s \n 内容：%s' % (return_msg["version"], return_msg["update"])
+            print notify_content
+            show_notify(notify_content)
     except Exception, e:
         logger.exception(e)
         logger.error("Version checking fail:" + str(e))
@@ -226,9 +226,11 @@ class EffectSpinner(Spinner):
             'drum': "爆裂鼓手"
         }
         name = self.parent.parent.Configer.style
-        display_name = style_display_name_map[name]
+        if name not in style_display_name_map:
+            display_name = name
+        else:
+            display_name = style_display_name_map[name]
         return display_name
-
 
 
 class SpinnerRow(BoxLayout):
@@ -242,6 +244,9 @@ class SpinnerRow(BoxLayout):
             'Cherry G80-3494': "Cherry_G80_3494",
             '爆裂鼓手': "drum"
         }
+        # for safe
+        if self.children[0].text not in style_display_name_map:
+            return
         style_name = style_display_name_map[self.children[0].text]
         self.parent.detecter.set_style(style_name)
 
@@ -297,8 +302,8 @@ class Main(GridLayout):
         self.detecter = KeyboardHandler()
         self.detecter.start_detecting()
         # show notify message
-        Thread(target=show_notify).start()
-        Thread(target=check_update).start()
+        Thread(target=show_startup_notify).start()
+        Thread(target=check_update_and_notify).start()
 
     def Hide(self):
         if not debug_mode:

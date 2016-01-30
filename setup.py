@@ -2,8 +2,10 @@ from setuptools import setup, find_packages
 from tickeys import __version__, __author__, __email__
 
 requirements = [
-    'Kivy',
+    'cython==0.20.2',
+    'kivy==1.9.0',
     'evdev',
+    'notify2',
 ]
 
 

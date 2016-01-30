@@ -20,14 +20,15 @@ class KeyboardHandler():
 
     def __init__(self):
         logger.debug("Keyboard deteccter created.")
-        self.keyboardList = self.find_keyboard()
+        self.detect_keyboard_list = self.find_keyboard()
         self.threads = []
-        self.inputRecord = []
-        self.hotKey = [16, 30, 44, 2, 3, 4]  # QAZ123
+        self.input_record_list = []
+        self.hot_key_list = [16, 30, 44, 2, 3, 4]      # QAZ123
+        self.hot_key_list2 = [16, 30, 44, 79, 80, 81]  # QAZ123 with 123 in side keyboard
         self.sp = SoundPlayer()
         self.show_device()
 
-    # list all event's name and its device
+    # list all event's name and its device and record it
     def show_device(self):
         # os.chdir(deviceFilePath)
         logger.debug("List all device")
@@ -48,51 +49,22 @@ class KeyboardHandler():
     def get_player_infor(self):
         return self.sp.get_infor()
 
-    # new way to find keyboard
     # return with a list of keyboard's event
     def find_keyboard(self):
-        keyboardList = []
+        keyboard_list = []
 
-        deviceInfo = open('/proc/bus/input/devices').read().lower().split('\n\n')
-        for i in filter(lambda i: not re.search('touch|web|cam|hdmi|button|mic|phone', i) and
+        device_info = open('/proc/bus/input/devices').read().lower().split('\n\n')
+        logger.debug("/proc/bus/input/devices:%s" % device_info)
+        exclude_pattern = 'touch|web|cam|hdmi|button|mic|phone|speak'
+        for i in filter(lambda i: not re.search(exclude_pattern, i) and
             ((not re.search('mouse', i) and re.search('bus=0003', i)) or re.search('keyboard', i))
-            , deviceInfo):
+            , device_info):
             m = re.search('event\d+', i)
             if m:
-                keyboardList.append(m.group())
-        assert len(keyboardList) > 0
-        logger.debug("keyboard list: %s" % keyboardList)
-        return keyboardList
-
-    # return with a list of keyboard's event
-    # def find_keyboard(self):
-    #     # os.chdir(deviceFilePath)
-    #     keyboardList = []
-    #     for event in os.listdir(deviceFilePath):
-    #         namePath = deviceFilePath + event + '/device/name'
-    #         namePathExist = os.path.isfile(namePath)
-    #         deviceName = file(namePath).read().lower() if namePathExist else None
-
-    #         if deviceName and deviceName.find('keyboard') != -1:
-    #             keyboardList.append(event)
-    #             continue
-
-    #         # check other USB device
-    #         bustypePath = deviceFilePath + event + '/device/id/bustype'
-    #         bustypePathExist = os.path.isfile(bustypePath)
-    #         bustype = file(bustypePath).read() if bustypePathExist else None
-    #         # 0003 = USB device, consider it !mouse = keyboard :)
-    #         isUSBKB = bustype and bustype.find('0003') != -1 and \
-    #             deviceName and deviceName.find('mouse') == -1
-    #         if isUSBKB:
-    #             keyboardList.append(event)
-
-    #     try:
-    #         logger.debug(keyboardList)
-    #         assert len(keyboardList) > 0
-    #     except AssertionError:
-    #         logger.error("Keyborad Not Found!!")
-    #     return keyboardList
+                keyboard_list.append(m.group())
+        assert len(keyboard_list) > 0
+        logger.debug("Keyboard list: %s" % keyboard_list)
+        return keyboard_list
 
     # event.value:1 for pressed, 0 for release
     def detect_input_from_event(self, eventName):
@@ -109,21 +81,24 @@ class KeyboardHandler():
                         (event.code, "pressed" if event.value else "release"))
 
     # check input if satisfy the hotkey
-    def check_show_window(self, keycode):
-        if len(self.inputRecord) > 0 and keycode == self.inputRecord[-1]:
+    def check_show_window(self, key_code):
+        if self.input_record_list and key_code == self.input_record_list[-1]:
             return
-        if keycode == self.hotKey[len(self.inputRecord)]:
-            self.inputRecord.append(keycode)
-            logger.debug(self.inputRecord)
-            if len(self.inputRecord) == 6:
+        input_record_length = len(self.input_record_list)
+        next_key_code = self.hot_key_list[input_record_length]
+        next_key_code2 = self.hot_key_list2[input_record_length]
+        if key_code == next_key_code or key_code == next_key_code2:
+            self.input_record_list.append(key_code)
+            if input_record_length == 5:
                 show_GUI()
-                self.inputRecord = []
+                self.input_record_list = []
         else:
-            self.inputRecord = []
+            # clear the record if not satisfy
+            self.input_record_list = []
 
     def start_detecting(self):
 
-        for i in self.keyboardList:
+        for i in self.detect_keyboard_list:
             t = threading.Thread(target=self.detect_input_from_event, args=(i,))
             self.threads.append(t)
             t.start()

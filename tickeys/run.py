@@ -16,8 +16,8 @@ def run_GUI():
         from GUI import TickeysApp
         TickeysApp().run()
     except Exception, e:
-        logger.info("Run GUI Fail, reason:")
         logger.exception(e)
+        logger.error("Run GUI Fail, reason:")
         os._exit(0)
 
 
