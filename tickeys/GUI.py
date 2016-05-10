@@ -15,7 +15,7 @@ import sys
 import os
 
 from threading import Thread
-
+import notify2
 from windowManager import hide_GUI, save_GUI_window_id
 
 reload(sys)
@@ -178,7 +178,6 @@ Builder.load_string('''
 
 def show_notify(notify_content=""):
     try:
-        import notify2
         notify2.init('Tickeys')
         title = 'Tickeys'
         icon_file_path = os.getcwd() + '/tickeys.png'
@@ -303,7 +302,8 @@ class Main(GridLayout):
         self.detecter.start_detecting()
         # show notify message
         Thread(target=show_startup_notify).start()
-        Thread(target=check_update_and_notify).start()
+        # 先不检查更新了
+        # Thread(target=check_update_and_notify).start()
 
     def Hide(self):
         if not debug_mode:

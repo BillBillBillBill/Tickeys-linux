@@ -36,6 +36,7 @@ def check_root():
     logger.info("Root checking success. You have the root permission")
     logger.debug("File path:" + os.path.dirname(__file__))
 
+
 def check_system():
     systems = ['Linux', 'SunOS', 'FreeBSD', 'Unix', 'OpenBSD', 'NetBSD']
     try:
