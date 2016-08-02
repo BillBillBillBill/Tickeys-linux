@@ -17,6 +17,7 @@ class Configer():
         self.style = 'mechanical'
         self.volume = 1.0
         self.pitch = 1.0
+        self.lang = 'en_US'
         self.save_config()
 
     def read_config(self):
@@ -37,6 +38,7 @@ class Configer():
                 self.volume = self.cf.getfloat('options', 'volume')
                 self.pitch = self.cf.getfloat('options', 'pitch')
                 self.style = self.cf.get('options', 'style')
+                self.lang = self.cf.get('options', 'lang') if 'lang' in self.cf.options("options") else "en_US"
         except Exception, e:
             logger.debug(e)
 
@@ -46,6 +48,7 @@ class Configer():
         self.cf.set('options', 'volume', self.volume)
         self.cf.set('options', 'pitch', self.pitch)
         self.cf.set('options', 'style', self.style)
+        self.cf.set('options', 'lang', self.lang)
 
         with open('/usr/share/Tickeys/config/tickeys.conf', 'w') as f:
             self.cf.write(f)
@@ -61,3 +64,7 @@ class Configer():
     @property
     def style(self):
         return self.style
+
+    @property
+    def lang(self):
+        return self.lang

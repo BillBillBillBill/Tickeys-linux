@@ -23,6 +23,7 @@ a = Analysis(
     cipher=block_cipher)
 a.datas += Tree("./tickeys/Resources", prefix = "Resources")
 a.datas += Tree("./tickeys/kivy", prefix = "kivy")
+a.datas += Tree("./tickeys/locale", prefix = "locale")
 pyz = PYZ(a.pure, a.zipped_data, cipher=block_cipher)
 exe = EXE(pyz,
           a.scripts,

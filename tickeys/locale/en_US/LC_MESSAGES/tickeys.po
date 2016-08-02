@@ -1,0 +1,27 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: Xiongbiao Huang<billo@qq.com>\n"
+"POT-Creation-Date: 2016-08-02 14:39+0800\n"
+"PO-Revision-Date: 2016-08-02 14:39+0800\n"
+"Last-Translator: Xiongbiao Huang<billo@qq.com>\n"
+"Language-Team: US English Huang<billo@qq.com>\n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Sound Style Items"
+msgstr "['Bubble', 'Typewriter', 'Mechanical', 'Sword', 'Cherry G80-3000', 'Cherry G80-3494', 'Drum']"
+
+msgid "Startup Notify"
+msgstr "<span style='color: #00B8CB; font-size:15px'>Tickeys</span> is running now.\nPress <span style='color: #00B8CB'>QAZ123</span> to show the window!"
+
+msgid "Update Notify"
+msgstr "<span style='color: #00B8CB; font-size:15px'>Tickeys</span> has available <span style='color: #FF4500'>update now：</span>\n latest version：%s \n latest content：%s"

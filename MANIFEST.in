@@ -1,5 +1,6 @@
 recursive-include tickeys/Resources/data *
 recursive-include tickeys/Resources/fonts *
+recursive-include tickeys/locale *
 include tickeys/requirements.txt
 include tickeys/tickeys
 include tickeys/tickeysui.kv

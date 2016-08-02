@@ -4,12 +4,11 @@
 import os
 import webbrowser
 from windowManager import show_GUI
-
 import pygtk
-pygtk.require('2.0')
-
 import gtk
+pygtk.require('2.0')
 gtk.gdk.threads_init()
+
 
 try:
     import platform
@@ -41,7 +40,17 @@ class GtkTray():
         trayicon = gtk.StatusIcon()
         trayicon.set_from_file(logo_filename)
 
-        trayicon.connect('popup-menu', lambda i, b, t: self.make_menu().popup(None, None, gtk.status_icon_position_menu, b, t, self.trayicon))
+        trayicon.connect(
+            'popup-menu',
+            lambda i, b, t: self.make_menu().popup(
+                None,
+                None,
+                gtk.status_icon_position_menu,
+                b,
+                t,
+                self.trayicon
+            )
+        )
         trayicon.connect('activate', self.on_show)
         trayicon.set_tooltip('Tickeys')
         trayicon.set_visible(True)

@@ -56,9 +56,12 @@ class KeyboardHandler():
         device_info = open('/proc/bus/input/devices').read().lower().split('\n\n')
         logger.debug("/proc/bus/input/devices:%s" % device_info)
         exclude_pattern = 'touch|web|cam|hdmi|button|mic|phone|speak|mouse|track|point|pad'
-        for i in filter(lambda i: not re.search(exclude_pattern, i) and
-            (re.search('bus=0003', i) or re.search('keyboard', i))
-            , device_info):
+        for i in filter(
+            lambda i:
+                (not re.search(exclude_pattern, i) and
+                re.search('bus=0003', i)) or re.search('keyboard', i),
+                device_info
+        ):
             m = re.search('event\d+', i)
             if m:
                 keyboard_list.append(m.group())

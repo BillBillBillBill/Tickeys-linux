@@ -35,7 +35,7 @@ class SoundPlayer():
         try:
             self.changing = True
             self.mixer.quit()
-            self.mixer.init(frequency=int(self.adjustPitch*22050))
+            self.mixer.init(frequency=int(self.adjustPitch * 22050))
             self.soundEffectCache = []
             for effectFile in self.soundFileList:
                 soundFile = './Resources/data/%s/%s' % \

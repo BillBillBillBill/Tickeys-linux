@@ -6,7 +6,6 @@ import os
 
 from windowManager import check_tickeys_running_status
 
-__version__ = '0.2.2'
 __author__ = 'Huang xiongbiao(billo@qq.com)'
 
 

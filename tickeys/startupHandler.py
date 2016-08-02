@@ -15,14 +15,15 @@ StartupPath = ['/etc/xdg/autostart', '~/.config/autostart', '~/.config/openbox/a
 
 def check_startup_file():
     return any(
-        os.path.isfile(dirname+'/'+DesktopEntryName)
-        for dirname in map(os.path.expanduser, StartupPath))
+        os.path.isfile(dirname + '/' + DesktopEntryName)
+        for dirname in map(os.path.expanduser, StartupPath)
+    )
 
 
 def delete_startup_linux():
     try:
         for dirname in map(os.path.expanduser, StartupPath):
-            fileName = dirname+'/'+DesktopEntryName
+            fileName = dirname + '/' + DesktopEntryName
             if os.path.isfile(fileName):
                 os.remove(fileName)
     except Exception, e:

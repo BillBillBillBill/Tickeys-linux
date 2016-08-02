@@ -4,6 +4,9 @@ from kivy.app import App
 from kivy.uix.spinner import Spinner
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.gridlayout import GridLayout
+from kivy.uix.modalview import ModalView
+from kivy.uix.button import Button
+from kivy.uix.label import Label
 from keyboardHandler import KeyboardHandler
 from kivy.lang import Builder
 from startupHandler import add_startup_linux, check_startup_file, delete_startup_linux
@@ -13,6 +16,8 @@ from __init__ import __version__, debug_mode
 
 import sys
 import os
+import gettext
+from ast import literal_eval
 
 from threading import Thread
 import notify2
@@ -22,14 +27,19 @@ reload(sys)
 sys.setdefaultencoding("utf-8")
 
 # set font
-from kivy.core.text import Label
+from kivy.core.text import Label as textLabel
 try:
     os.chdir(os.path.dirname(__file__))
 except Exception:
     pass
-Label.register("DroidSans", "./Resources/fonts/DroidSansFallbackFull.ttf")
+textLabel.register("DroidSans", "./Resources/fonts/DroidSansFallbackFull.ttf")
 
-Builder.load_string('''
+
+configer = Configer()
+t = gettext.translation('tickeys', 'locale', languages=[configer.lang], fallback=True)
+_ = t.ugettext
+
+Builder.load_string(('''
 <Main>:
     pos: 0,0
     padding: 50
@@ -65,7 +75,7 @@ Builder.load_string('''
         font_size: 33
         size_hint_x: None
         width: 250
-        text: '音量：'
+        text: '%s'
     Slider:
         min: 0.0
         max: 1.0
@@ -80,7 +90,7 @@ Builder.load_string('''
         font_size: 33
         size_hint_x: None
         width: 250
-        text: '音调：'
+        text: '%s'
     Slider:
         min: 0.0
         max: 3.0
@@ -95,7 +105,7 @@ Builder.load_string('''
         color: 1, 1, 1, 1
         font_size: 33
         size_hint_x: None
-        text: "声音方案："
+        text: "%s"
         width: 250
     EffectSpinner:
         on_text: root.change_style()
@@ -107,7 +117,7 @@ Builder.load_string('''
     text: root.get_style_name()
     background_color: 3, 3, 3, 1
     color: 0.1, 0.67, 0.93, 1
-    values:['冒泡', '打字机', '机械键盘', '剑气', 'Cherry G80-3000', 'Cherry G80-3494', '爆裂鼓手']
+    values: %s
 
 <ExitAndSwitchRow>:
     Label:
@@ -118,7 +128,7 @@ Builder.load_string('''
         color: 1, 1, 1, 1
         font_size: 17
         width: root.width/6.0 + 60
-        text: '开机时自启动：'
+        text: '%s：'
     Switch:
         size_hint_x: None
         width: 40
@@ -127,14 +137,26 @@ Builder.load_string('''
         on_active: root.add_delete_startup_file(self.active)
     Label:
         size_hint_x: None
-        width: root.width/6.0 - 35
+        width: root.width/6.0 - 85
+    Spinner:
+        width: 40
+        bold: True
+        font_size: 20
+        text: root.get_language_name()
+        background_color: 3, 3, 3, 1
+        color: 0.1, 0.67, 0.93, 1
+        values: ['English', '简体中文']
+        on_text: root.set_language(self.text)
+    Label:
+        size_hint_x: None
+        width: 20
     Button:
         size_hint_x: None
         width: 150
         font_size: 20
         background_color: 3, 3, 3, 1
         bold: True
-        text: "退出"
+        text: "%s"
         color: 0,0,0,1
         on_press: root.Exit()
     Label:
@@ -146,7 +168,7 @@ Builder.load_string('''
         font_size: 20
         background_color: 3, 3, 3, 1
         bold: True
-        text: "隐藏"
+        text: "%s"
         color: 0,0,0,1
         on_release: root.Hide()
 
@@ -162,18 +184,18 @@ Builder.load_string('''
         font_size: 20
         size_hint_x: None
         markup: True
-        text: "[ref=项目主页]项目主页[/ref]"
+        text: "[ref=%s]%s[/ref]"
         width: root.width/3.0
         on_ref_press:root.open_project_website()
     Label:
         color: 0.8, 0.8, 0.8, 1
         font_size: 20
         size_hint_x: None
-        text: "作者： Bill (billo@qq.com)"
+        text: "%s： Bill (billo@qq.com)"
         width: root.width/3.0
         border: 1,1,1,1
         on_touch_move:
-'''.encode('utf-8'))
+''' % (_("Volume"), _("Pitch"), _("Sound Style"), _("Sound Style Items"), _("Start at startup"), _("Quit"), _("Hide"), _("Project Website"), _("Project Website"), _("Author"))).encode('utf-8'))
 
 
 def show_notify(notify_content=""):
@@ -189,7 +211,7 @@ def show_notify(notify_content=""):
 
 
 def show_startup_notify():
-    notify_content = '<span style="color: #00B8CB; font-size:15px">Tickeys</span>正在运行\n随时按<span style="color: #00B8CB">QAZ123</span>唤出设置窗口'
+    notify_content = _("Startup Notify")
     show_notify(notify_content)
 
 
@@ -205,7 +227,7 @@ def check_update_and_notify():
             logger.debug("Version checking success. It is the latest version...")
         else:
             # show update notify
-            notify_content = '<span style="color: #00B8CB; font-size:15px">Tickeys</span>有可用的<span style="color: #FF4500">更新：</span>\n 版本：%s \n 内容：%s' % (return_msg["version"], return_msg["update"])
+            notify_content = _("Update Notify") % (return_msg["version"], return_msg["update"])
             print notify_content
             show_notify(notify_content)
     except Exception, e:
@@ -215,33 +237,31 @@ def check_update_and_notify():
 
 class EffectSpinner(Spinner):
     def get_style_name(self):
+        style_list = literal_eval(_("Sound Style Items"))
         style_display_name_map = {
-            'bubble': "冒泡",
-            'typewriter': "打字机",
-            'mechanical': "机械键盘",
-            'sword': "剑气",
-            'Cherry_G80_3000': "Cherry G80-3000",
-            'Cherry_G80_3494': "Cherry G80-3494",
-            'drum': "爆裂鼓手"
+            'bubble': style_list[0],
+            'typewriter': style_list[1],
+            'mechanical': style_list[2],
+            'sword': style_list[3],
+            'Cherry_G80_3000': style_list[4],
+            'Cherry_G80_3494': style_list[5],
+            'drum': style_list[6]
         }
         name = self.parent.parent.Configer.style
-        if name not in style_display_name_map:
-            display_name = name
-        else:
-            display_name = style_display_name_map[name]
-        return display_name
+        return style_display_name_map.get(name, name)
 
 
 class SpinnerRow(BoxLayout):
     def change_style(self):
+        style_list = literal_eval(_("Sound Style Items"))
         style_display_name_map = {
-            '冒泡': "bubble",
-            '打字机': "typewriter",
-            '机械键盘': "mechanical",
-            '剑气': "sword",
-            'Cherry G80-3000': "Cherry_G80_3000",
-            'Cherry G80-3494': "Cherry_G80_3494",
-            '爆裂鼓手': "drum"
+            style_list[0]: "bubble",
+            style_list[1]: "typewriter",
+            style_list[2]: "mechanical",
+            style_list[3]: "sword",
+            style_list[4]: "Cherry_G80_3000",
+            style_list[5]: "Cherry_G80_3494",
+            style_list[6]: "drum"
         }
         # for safe
         if self.children[0].text not in style_display_name_map:
@@ -277,6 +297,26 @@ class ExitAndSwitchRow(BoxLayout):
         else:
             delete_startup_linux()
 
+    def set_language(self, language):
+        language_map = {
+            "English": "en_US",
+            "简体中文": "zh_CN"
+        }
+        self.parent.Configer.lang = language_map.get(language, "en_US")
+        self.parent.Configer.save_config()
+        # show popup hint
+        view = ModalView(size_hint=(None, None), size=(0, 0))
+        view.add_widget(Label(text=_("This will take effect next time you start"), font_size=30))
+        view.open()
+
+    def get_language_name(self):
+        lang_display_name_map = {
+            "en_US": "English",
+            "zh_CN": "简体中文"
+        }
+        lang = self.parent.Configer.lang
+        return lang_display_name_map.get(lang, "English")
+
     @property
     def have_added(self):
         return check_startup_file()
@@ -302,7 +342,7 @@ class Main(GridLayout):
         self.detecter.start_detecting()
         # show notify message
         Thread(target=show_startup_notify).start()
-        # 先不检查更新了
+        # now not check update
         # Thread(target=check_update_and_notify).start()
 
     def Hide(self):
