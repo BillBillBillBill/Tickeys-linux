@@ -79,7 +79,7 @@ Builder.load_string(('''
     Slider:
         min: 0.0
         max: 1.0
-        value: root.parent.Configer.volume
+        value: root.parent.configer.volume
         width: 300
         on_value: root.setVolume(self.value)
 
@@ -92,9 +92,9 @@ Builder.load_string(('''
         width: 250
         text: '%s'
     Slider:
-        min: 0.0
-        max: 3.0
-        value: root.parent.Configer.pitch
+        min: 0.8
+        max: 2.5
+        value: root.parent.configer.pitch
         width: 300
         on_value: root.setPitch(self.value)
 
@@ -247,7 +247,7 @@ class EffectSpinner(Spinner):
             'Cherry_G80_3494': style_list[5],
             'drum': style_list[6]
         }
-        name = self.parent.parent.Configer.style
+        name = self.parent.parent.configer.style
         return style_display_name_map.get(name, name)
 
 
@@ -302,8 +302,8 @@ class ExitAndSwitchRow(BoxLayout):
             "English": "en_US",
             "简体中文": "zh_CN"
         }
-        self.parent.Configer.lang = language_map.get(language, "en_US")
-        self.parent.Configer.save_config()
+        self.parent.configer.lang = language_map.get(language, "en_US")
+        self.parent.configer.save_config()
         # show popup hint
         view = ModalView(size_hint=(None, None), size=(0, 0))
         view.add_widget(Label(text=_("This will take effect next time you start"), font_size=30))
@@ -314,7 +314,7 @@ class ExitAndSwitchRow(BoxLayout):
             "en_US": "English",
             "zh_CN": "简体中文"
         }
-        lang = self.parent.Configer.lang
+        lang = self.parent.configer.lang
         return lang_display_name_map.get(lang, "English")
 
     @property
@@ -333,7 +333,7 @@ class InforRow(BoxLayout):
 
 class Main(GridLayout):
     def __init__(self, *args, **kwargs):
-        self.Configer = Configer()
+        self.configer = Configer()
         super(Main, self).__init__(**kwargs)
         save_GUI_window_id()
         self.Hide()

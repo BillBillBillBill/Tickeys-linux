@@ -10,7 +10,6 @@ __author__ = 'Huang xiongbiao(billo@qq.com)'
 
 
 def run_GUI():
-    check_root()
     check_system()
     try:
         from GUI import TickeysApp
@@ -28,6 +27,7 @@ def check_root():
         sys.exit(0)
     logger.info("Root checking success. You have the root permission")
     logger.debug("File path:" + os.path.dirname(__file__))
+
 
 def check_system():
     systems = ['Linux', 'SunOS', 'FreeBSD', 'Unix', 'OpenBSD', 'NetBSD']
