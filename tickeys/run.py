@@ -3,7 +3,6 @@
 from logger import logger
 import sys
 import os
-
 from windowManager import check_tickeys_running_status
 
 __author__ = 'Huang xiongbiao(billo@qq.com)'
@@ -48,6 +47,8 @@ def check_system():
 
 def main():
     logger.debug("Tickeys start........")
+    if not os.path.isdir(os.environ["HOME"] + "/.tickeys"):
+        os.mkdir(os.environ["HOME"] + "/.tickeys")
     is_running = check_tickeys_running_status()
     if is_running:
         return

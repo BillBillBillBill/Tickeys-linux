@@ -3,11 +3,17 @@ import commands
 
 from logger import logger
 from threading import Thread
+import os
+
+
+terminal_id = os.environ["HOME"] + "/.tickeys/tickeys_terminal_window_id"
+gui_id = os.environ["HOME"] + "/.tickeys/tickeys_GUI_window_id"
+
 
 def save_terminal_window_id():
     try:
         stat, terminalId = commands.getstatusoutput('xdotool getactivewindow')
-        with open("/tmp/tickeys_terminal_window_id", "w+") as f:
+        with open(terminal_id, "w+") as f:
             if stat == 0:
                 f.write(terminalId)
             else:
@@ -17,7 +23,7 @@ def save_terminal_window_id():
 
 
 def read_terminal_window_id():
-    with open("/tmp/tickeys_terminal_window_id", "r") as f:
+    with open(terminal_id, "r") as f:
         return f.read()
 
 
@@ -37,7 +43,7 @@ def hide_terminal():
 def save_GUI_window_id():
     try:
         stat, GUIID = commands.getstatusoutput('xdotool getactivewindow')
-        with open("/tmp/tickeys_GUI_window_id", "w+") as f:
+        with open(gui_id, "w+") as f:
             if stat == 0:
                 f.write(GUIID)
             else:
@@ -47,16 +53,15 @@ def save_GUI_window_id():
 
 
 def read_GUI_window_id():
-    with open("/tmp/tickeys_GUI_window_id", "r") as f:
+    with open(gui_id, "r") as f:
         return f.read()
 
 
 def hide_GUI():
     try:
         GUIID = read_GUI_window_id()
-        commands.getstatusoutput(
-                'xdotool windowunmap --sync %s' % GUIID)
-    except Exception,e:
+        commands.getstatusoutput('xdotool windowunmap --sync %s' % GUIID)
+    except Exception, e:
         logger.error(str(e))
 
 
@@ -85,6 +90,7 @@ def show_GUI():
     except Exception, e:
         logger.error(str(e))
         return '256'
+
 
 def check_tickeys_running_status():
     save_terminal_window_id()

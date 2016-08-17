@@ -3,9 +3,10 @@
 
 from __future__ import with_statement
 from logger import logger
-
 import os
 import commands
+from config import configer
+
 
 executable_filename = "tickeys"
 python2 = os.popen('python2 -V 2>&1').read().startswith('Python 2.') and 'python2' or 'python'
@@ -14,18 +15,19 @@ StartupPath = ['/etc/xdg/autostart', '~/.config/autostart', '~/.config/openbox/a
 
 
 def check_startup_file():
-    return any(
-        os.path.isfile(dirname + '/' + DesktopEntryName)
-        for dirname in map(os.path.expanduser, StartupPath)
-    )
+    return bool(configer.autostart)
 
 
 def delete_startup_linux():
     try:
+        command_list = []
         for dirname in map(os.path.expanduser, StartupPath):
-            fileName = dirname + '/' + DesktopEntryName
-            if os.path.isfile(fileName):
-                os.remove(fileName)
+            command_list.append("rm %s/%s" % (dirname, DesktopEntryName))
+        command_str = " | ".join(command_list)
+        command = "gksudo --message password " + command_str
+        commands.getstatusoutput(command)
+        configer.autostart = False
+        configer.save_config()
     except Exception, e:
         logger.debug("Delete startup fail:" + str(e))
         return False
@@ -49,38 +51,18 @@ def command_exist(command='gksu'):
 def add_startup_linux():
     filename = os.path.abspath(__file__)
     dirname = os.path.dirname(filename)
-    command = 'gksu' if command_exist() else 'sudo'
 
     if os.path.exists("/usr/share/applications/Tickeys.desktop"):
         # install by deb
         with open("/usr/share/applications/Tickeys.desktop") as f:
             DESKTOP_FILE = f.read()
-    elif dirname.find('library.zip') != -1:
-        realPath = dirname.strip('library.zip')
-        # In a package
-        DESKTOP_FILE = '''\
-[Desktop Entry]
-Type=Application
-Categories=Application;
-Path=%s
-Exec=%s sh %s
-Terminal=true
-Icon=%s/tickeys.png
-Hidden=false
-NoDisplay=false
-StartupNotify=true
-X-GNOME-Autostart-enabled=true
-Name=Tickeys
-Comment=Instant audio feedback when typing. For Linux.
-''' % (realPath, command, executable_filename, realPath)
-
     elif command_exist('tickeys'):
         # used pip installed
         DESKTOP_FILE = '''\
 [Desktop Entry]
 Type=Application
 Categories=Application;
-Exec=%s tickeys
+Exec=tickeys
 Icon=%s/tickeys.png
 Terminal=true
 Hidden=false
@@ -89,7 +71,7 @@ StartupNotify=true
 X-GNOME-Autostart-enabled=true
 Name=Tickeys
 Comment=Instant audio feedback when typing. For Linux.
-''' % (command, dirname)
+''' % dirname
     else:
         # not install yet(run in py)
         DESKTOP_FILE = '''\
@@ -97,7 +79,7 @@ Comment=Instant audio feedback when typing. For Linux.
 Type=Application
 Categories=Application;
 Path=%s
-Exec=%s python run.py
+Exec=python run.py
 Terminal=true
 Icon=%s/tickeys.png
 Hidden=false
@@ -106,19 +88,22 @@ StartupNotify=true
 X-GNOME-Autostart-enabled=true
 Name=Tickeys
 Comment=Instant audio feedback when typing. For Linux.
-''' % (dirname, command, dirname)
-
+''' % (dirname, dirname)
     try:
+        # it is stupid
+        command_list = []
         for dirname in map(os.path.expanduser, StartupPath):
-            if not os.path.exists(dirname):
-                os.makedirs(dirname)
-
-            if os.path.isdir(dirname):
-                filename = os.path.join(dirname, DesktopEntryName)
-                with open(filename, 'w') as fp:
-                    fp.write(DESKTOP_FILE)
-                os.chmod(filename, 0777)
+            filename = os.path.join(dirname, DesktopEntryName)
+            command_list.append('"mkdir -p %s"' % dirname)
+            command_list.append('echo "%s" >> %s' % (DESKTOP_FILE, filename))
+            command_list.append('chmod 777 %s' % filename)
+        command_str = " | ".join(command_list)
+        command = "gksudo --message password " + command_str
+        commands.getstatusoutput(command)
+        configer.autostart = True
+        configer.save_config()
     except Exception, e:
+        print e
         logger.debug("Add to startup fail:" + str(e))
         return False
     return True

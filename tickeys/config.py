@@ -10,6 +10,7 @@ class Configer():
             os.chdir(os.path.dirname(__file__))
         except Exception:
             pass
+        self.config_path = os.environ["HOME"] + "/.tickeys/tickeys.conf"
         self.cf = ConfigParser.ConfigParser()
         self.read_config()
 
@@ -18,27 +19,20 @@ class Configer():
         self.volume = 1.0
         self.pitch = 1.0
         self.lang = 'en_US'
+        self.autostart = False
         self.save_config()
 
     def read_config(self):
         try:
-            config_path = [
-                "/usr/share/Tickeys",
-                "/usr/share/Tickeys/config",
-                "/usr/share/Tickeys/config/tickeys.conf"
-            ]
-            if not all([os.path.exists(cp) for cp in config_path]):
-                if not os.path.exists("/usr/share/Tickeys"):
-                    os.mkdir("/usr/share/Tickeys")
-                if not os.path.exists("/usr/share/Tickeys/config"):
-                    os.mkdir("/usr/share/Tickeys/config")
+            if not os.path.exists(self.config_path):
                 self.init_config()
             else:
-                self.cf.read('/usr/share/Tickeys/config/tickeys.conf')
+                self.cf.read(self.config_path)
                 self.volume = self.cf.getfloat('options', 'volume')
                 self.pitch = self.cf.getfloat('options', 'pitch')
                 self.style = self.cf.get('options', 'style')
-                self.lang = self.cf.get('options', 'lang') if 'lang' in self.cf.options("options") else "en_US"
+                self.autostart = self.cf.get('options', 'autostart')
+                self.lang = self.cf.get('options', 'lang')
         except Exception, e:
             logger.debug(e)
 
@@ -49,8 +43,9 @@ class Configer():
         self.cf.set('options', 'pitch', self.pitch)
         self.cf.set('options', 'style', self.style)
         self.cf.set('options', 'lang', self.lang)
+        self.cf.set('options', 'autostart', self.autostart)
 
-        with open('/usr/share/Tickeys/config/tickeys.conf', 'w') as f:
+        with open(self.config_path, 'w') as f:
             self.cf.write(f)
 
     @property
@@ -68,3 +63,9 @@ class Configer():
     @property
     def lang(self):
         return self.lang
+
+    @property
+    def autostart(self):
+        return self.autostart
+
+configer = Configer()

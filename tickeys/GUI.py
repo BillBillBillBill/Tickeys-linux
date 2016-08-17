@@ -11,7 +11,7 @@ from keyboardHandler import KeyboardHandler
 from kivy.lang import Builder
 from startupHandler import add_startup_linux, check_startup_file, delete_startup_linux
 from logger import logger
-from config import Configer
+from config import configer
 from __init__ import __version__, debug_mode
 
 import sys
@@ -35,7 +35,6 @@ except Exception:
 textLabel.register("DroidSans", "./Resources/fonts/DroidSansFallbackFull.ttf")
 
 
-configer = Configer()
 t = gettext.translation('tickeys', 'locale', languages=[configer.lang], fallback=True)
 _ = t.ugettext
 
@@ -333,7 +332,7 @@ class InforRow(BoxLayout):
 
 class Main(GridLayout):
     def __init__(self, *args, **kwargs):
-        self.configer = Configer()
+        self.configer = configer
         super(Main, self).__init__(**kwargs)
         save_GUI_window_id()
         self.Hide()

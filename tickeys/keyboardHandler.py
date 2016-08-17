@@ -4,13 +4,9 @@ import threading
 from soundPlayer import SoundPlayer
 from logger import logger
 from pyxhook import HookManager
-
 from windowManager import show_GUI
 
 __author__ = 'Huang xiongbiao(billo@qq.com)'
-
-# input device file path
-deviceFilePath = '/sys/class/input/'
 
 
 class KeyboardHandler():

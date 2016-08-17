@@ -5,6 +5,8 @@ requirements = [
     'cython==0.20.2',
     'kivy==1.9.0',
     'evdev',
+    'sounddevice',
+    'soundfile',
     'notify2',
 ]
 

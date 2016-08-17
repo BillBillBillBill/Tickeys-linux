@@ -4,7 +4,7 @@ import soundfile as sf
 import sounddevice as sd
 import threading
 from logger import logger
-from config import Configer
+from config import configer
 import json
 import os
 
@@ -22,7 +22,7 @@ class SoundPlayer():
         self.schemes = dict(
             (i['name'], i)
             for i in json.load(file('./Resources/data/schemes.json')))
-        self.configer = Configer()
+        self.configer = configer
         self.sound_file_list = self.schemes[self.configer.style]['files']
         self.key_audio_map = self.schemes[self.configer.style]['key_audio_map']
         self.non_unique_count = self.schemes[self.configer.style]['non_unique_count']
