@@ -1,5 +1,6 @@
 cython==0.20.2
 kivy==1.9.0
+setuptools==19.2
 pyinstaller==3.0
 sounddevice
 soundfile

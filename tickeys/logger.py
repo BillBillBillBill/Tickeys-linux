@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 import logging
+import os
 
 # 创建一个logger
 logger = logging.getLogger("logger")
@@ -11,7 +12,7 @@ sh = logging.StreamHandler()
 sh.setLevel(logging.INFO)
 
 # 创建一个handler，用于写入日志文件
-fh = logging.FileHandler("/tmp/tickeys.log")
+fh = logging.FileHandler(os.environ["HOME"] + "/.tickeys/tickeys.log")
 fh.setLevel(logging.DEBUG)
 
 # 定义handler的输出格式

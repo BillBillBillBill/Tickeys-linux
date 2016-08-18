@@ -34,6 +34,7 @@ class Configer():
                 self.autostart = self.cf.get('options', 'autostart')
                 self.lang = self.cf.get('options', 'lang')
         except Exception, e:
+            self.init_config()
             logger.debug(e)
 
     def save_config(self):
