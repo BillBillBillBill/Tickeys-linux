@@ -17,15 +17,16 @@ This tool have Windows and Mac version，Mac Version:([GitHub](https://github.co
 # Project Website
 http://www.yingdev.com/projects/tickeys
 
-PyPI: https://pypi.python.org/pypi/tickeys
+#　PyPI
+https://pypi.python.org/pypi/tickeys
 
-# Tickeys的Mac版本
+# Tickeys Mac Version
 https://github.com/yingDev/Tickeys
 
 # Install
-Install in different distribution is not fully test , some distribution may need installing related requirements.
+Tickeys has not been fully tested to install in different distribution yet, some distribution may need installing related requirements.
 
-##Download the package deb(suggest)
+##Download the packaged deb(suggest)
 
 * deb links：
 
@@ -35,25 +36,19 @@ Install in different distribution is not fully test , some distribution may need
 
 * After install, find Tickeys on launcher and open it
 
-##Compile(need requirements)：
+##Compile(Build from source, need requirements)：
 
 * next operation show **execute** `sudo apt-get install python-dev python-pip python-kivy xdotool gksu`first to meet the requirements for Tickeys to run.
 * install package(Notice Version)： sudo pip install cython==0.20.2 notify2 pyinstaller==3.0 kivy==1.9.0 evdev
 
-#### Quick Compile Install：execute `sudo apt-get install python-dev python-pip python-kivy xdotool && sudo easy_install tickeys`。
+#### Quick Compile Install：
 
-###Method1.Auto Install
-
-* execute `sudo easy_install tickeys` or `sudo pip install tickeys`安装
-* Use command `sudo tickeys` to open (`sudo tickeys -c` for CLI version)
-
-###Method2.Semiautomatic Install
-
-* Download https://github.com/BillBillBillBill/Tickeys-linux/archive/master.zip ，extract and execute `sudo python setup.py install`
+* execute `sudo apt-get install python-dev python-pip python-kivy xdotool && sudo easy_install tickeys`。
+* execute `sudo easy_install tickeys` or `sudo pip install tickeys`
 * Use command `sudo tickeys` to open (`sudo tickeys -c` for CLI version)
 
 
-#### Problem?
+#### Running Problem
 
 * Couldn't hide window：
 
@@ -87,10 +82,10 @@ Debian and Ubuntu User may try to install:
     * sudo apt-get install libsdl-ttf2.0
 
 # How to use
-Root permission is needed，implement the CLI and GUI version，GUI version is run by default，it will auto hide after open，press QAZ123 to show the window.
+Root permission is needed，implement the CLI and GUI version，GUI version is run by default，it will auto hide after open，press QAZ123 to show the window of tickeys.
 
 
-# Develop
+# How to Develop
 * ####Code Style: PEP8
 
 * ####Application UI framework：Kivy
@@ -100,15 +95,6 @@ Root permission is needed，implement the CLI and GUI version，GUI version is r
 Install requirements：
 
     pip install -r requirements.txt
-
-Use pyinstaller to package
-    Command：`pyinstaller build.spec`
-
-Sound by pygame's mixer
-
-Keyboard events by evdev
-
-Window control by xdotool
 
 # Project struct
 Tickeys-linux
