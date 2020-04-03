@@ -26,7 +26,7 @@ https://github.com/yingDev/Tickeys
 # Install
 Tickeys has not been fully tested to install in different distribution yet, some distribution may need installing related requirements.
 
-##Download the packaged deb(suggest)
+## Download the packaged deb(suggest)
 
 * deb links：
 
@@ -36,7 +36,7 @@ Tickeys has not been fully tested to install in different distribution yet, some
 
 * After install, find Tickeys on launcher and open it
 
-##Compile(Build from source, need requirements)：
+## Compile(Build from source, need requirements)：
 
 * next operation show **execute** `sudo apt-get install python-dev python-pip python-kivy xdotool gksu`first to meet the requirements for Tickeys to run.
 * install package(Notice Version)： sudo pip install cython==0.20.2 notify2 pyinstaller==3.0 kivy==1.9.0 evdev

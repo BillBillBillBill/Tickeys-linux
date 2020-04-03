@@ -23,7 +23,7 @@ https://github.com/yingDev/Tickeys
 # 安装说明
 在不同发行版上可能会有因为文件的缺失或者环境不同导致无法使用，需要安装相关依赖。
 
-##下载打包好的安装包安装(建议)
+## 下载打包好的安装包安装(建议)
 
 * 下载deb安装包：
 
@@ -33,19 +33,19 @@ https://github.com/yingDev/Tickeys
 
 * 安装后，在启动器中找到Tickeys打开。
 
-##编译安装(需要安装依赖)：
+## 编译安装(需要安装依赖)：
 
 * 以下方法需要**先执行**`sudo apt-get install python-dev python-pip python-kivy xdotool gksu`来安装依赖，一般这样就可以满足运行条件了。
 * 安装库(注意版本)： sudo pip install cython==0.20.2 notify2 pyinstaller==3.0 kivy==1.9.0 evdev
 
 #### 快速编译安装：执行`sudo apt-get install python-dev python-pip python-kivy xdotool && sudo easy_install tickeys`。
 
-###方法1.自动安装
+### 方法1.自动安装
 
 * 执行`sudo easy_install tickeys` or `sudo pip install tickeys`安装
 * 然后通过 `sudo tickeys` 来打开 (sudo tickeys -c 打开CLI版本)
 
-###方法2.半自动安装
+### 方法2.半自动安装
 
 * 下载 https://github.com/BillBillBillBill/Tickeys-linux/archive/master.zip ，解压后运行 `sudo python setup.py install`
 * 然后通过 `sudo tickeys` 来打开 (sudo tickeys -c 打开CLI版本)
